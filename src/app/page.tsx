@@ -8,12 +8,66 @@ const DESTINATION_IMAGES: Record<string, string> = {
   "br-hills-wildlife": "/images/destinations/br-hills.jpg",
 };
 
-const TRAIL_PLACEHOLDER_IMAGES = [
-  "https://picsum.photos/id/1018/800/600",
-  "https://picsum.photos/id/1036/800/600",
-  "https://picsum.photos/id/1043/800/600",
+const TRAIL_IMAGES: Record<string, string> = {
+  "kumara-parvatha-trek": "/images/trails/kumara-parvatha.jpg",
+  "skandagiri-night-trek": "/images/trails/skandagiri.jpg",
+  "tadiandamol-peak": "/images/trails/tadiandamol.jpg",
+  "savandurga-day-trek": "/images/trails/savandurga.jpg",
+};
+
+const MOODS = [
+  {
+    title: "Sunrise",
+    description: "Start early. Find somewhere worth the morning.",
+    tag: "EARLY STARTS",
+  },
+  {
+    title: "Quiet Nature",
+    description: "Slow down somewhere surrounded by green.",
+    tag: "SLOW ESCAPES",
+  },
+  {
+    title: "A Proper Trek",
+    description: "For weekends that deserve a little effort.",
+    tag: "TRAILS",
+  },
+  {
+    title: "Photography",
+    description: "Scenic places made for chasing the right frame.",
+    tag: "SCENIC SPOTS",
+  },
+  {
+    title: "Scenic Drive",
+    description: "Take the long way. It might be the best part.",
+    tag: "ROAD TRIPS",
+  },
+  {
+    title: "Waterfalls & Monsoon",
+    description: "Follow the rain to places that come alive.",
+    tag: "MONSOON",
+  },
 ];
 
+const AVARA_PICKS = [
+  {
+    number: "01",
+    title: "Tadiandamol",
+    description: "For when you want a proper mountain weekend.",
+    category: "MOUNTAINS",
+  },
+  {
+    number: "02",
+    title: "Nandi Hills",
+    description: "For an early morning that is actually worth waking up for.",
+    category: "SUNRISE",
+  },
+  {
+    number: "03",
+    title: "BR Hills",
+    description: "For getting away from the noise.",
+    category: "QUIET ESCAPES",
+  },
+];
 export default function HomePage() {
   // Get 3 featured destinations
   const featuredEscapes = mockDestinations
@@ -64,7 +118,7 @@ export default function HomePage() {
         <div className="w-full lg:w-1/2 h-[60vh] lg:h-auto relative lg:min-h-[calc(100vh-4rem)] bg-muted">
           {/* Temporary placeholder image for the Western Ghats/Nature vibe */}
           <img
-            src="https://images.unsplash.com/photo-1542224566-6e85f2e6772f?q=80&w=2000&auto=format&fit=crop"
+            src="/images/hero/avara-hero.jpg"
             alt="Scenic mist-covered mountains"
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -160,7 +214,7 @@ export default function HomePage() {
 
           {/* Editorial Grid - Aligned heights */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-14">
-            {featuredTrails.map((trail, index) => (
+            {featuredTrails.map((trail) => (
               <Link
                 key={trail.slug}
                 href={`/trails/${trail.slug}`}
@@ -169,7 +223,7 @@ export default function HomePage() {
                 {/* Image Container */}
                 <div className="relative w-full aspect-[3/2] overflow-hidden rounded-sm mb-6 md:mb-8 bg-muted">
                   <img
-                    src={TRAIL_PLACEHOLDER_IMAGES[index] || "https://picsum.photos/id/1018/800/600"}
+                    src={TRAIL_IMAGES[trail.slug]}
                     alt={trail.name}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
                   />
@@ -200,6 +254,199 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      <section className="py-24 md:py-32 bg-[#f3f1eb]">
+        <div className="max-w-7xl mx-auto px-6 md:px-10">
+
+          <div className="max-w-2xl mb-14 md:mb-20">
+            <p className="text-xs tracking-[0.2em] text-muted-foreground mb-4">
+              EXPLORE YOUR WAY
+            </p>
+
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif tracking-tight">
+              Explore by mood.
+            </h2>
+
+            <p className="mt-5 text-base md:text-lg text-muted-foreground max-w-xl leading-relaxed">
+              Not sure where to go? Start with how you want the weekend to feel.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border border border-border">
+            {MOODS.map((mood) => (
+              <Link
+                key={mood.title}
+                href="/explore"
+                className="group bg-[#f3f1eb] p-8 md:p-10 min-h-[220px] flex flex-col justify-between transition-colors duration-500 hover:bg-white"
+              >
+                <div>
+                  <p className="text-[10px] tracking-[0.2em] text-muted-foreground mb-6">
+                    {mood.tag}
+                  </p>
+
+                  <h3 className="text-2xl md:text-3xl font-serif tracking-tight">
+                    {mood.title}
+                  </h3>
+
+                  <p className="mt-4 text-sm md:text-base text-muted-foreground leading-relaxed max-w-sm">
+                    {mood.description}
+                  </p>
+                </div>
+
+                <div className="mt-8 flex items-center justify-between">
+                  <span className="text-sm">
+                    Explore
+                  </span>
+
+                  <span className="text-lg transition-transform duration-300 group-hover:translate-x-1">
+                    →
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+        </div>
+      </section>
+      <section className="py-24 md:py-32">
+        <div className="max-w-7xl mx-auto px-6 md:px-10">
+
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14 md:mb-20">
+            <div>
+              <p className="text-xs tracking-[0.2em] text-muted-foreground mb-4">
+                OUR RECOMMENDATIONS
+              </p>
+
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif tracking-tight">
+                Avara Picks
+              </h2>
+            </div>
+
+            <p className="text-base text-muted-foreground max-w-md leading-relaxed">
+              Places we'd send a friend without thinking twice.
+            </p>
+          </div>
+
+          <div className="border-t border-border">
+            {AVARA_PICKS.map((pick) => (
+              <Link
+                key={pick.number}
+                href="/explore"
+                className="group grid grid-cols-[48px_1fr_auto] md:grid-cols-[80px_1fr_220px_auto] gap-4 md:gap-8 items-center py-8 md:py-10 border-b border-border"
+              >
+                <span className="text-xs text-muted-foreground">
+                  {pick.number}
+                </span>
+
+                <div>
+                  <p className="text-[10px] tracking-[0.2em] text-muted-foreground mb-3">
+                    {pick.category}
+                  </p>
+
+                  <h3 className="text-2xl md:text-3xl font-serif tracking-tight group-hover:translate-x-1 transition-transform duration-300">
+                    {pick.title}
+                  </h3>
+
+                  <p className="mt-2 text-sm text-muted-foreground max-w-lg">
+                    {pick.description}
+                  </p>
+                </div>
+
+                <span className="hidden md:block text-sm text-muted-foreground">
+                  Avara recommendation
+                </span>
+
+                <span className="text-lg transition-transform duration-300 group-hover:translate-x-1">
+                  →
+                </span>
+              </Link>
+            ))}
+          </div>
+
+        </div>
+      </section>
+      <footer className="border-t border-border">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 py-16 md:py-20">
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+
+            {/* Brand */}
+            <div>
+              <Link
+                href="/"
+                className="text-2xl font-serif tracking-tight"
+              >
+                Avara
+              </Link>
+
+              <p className="mt-4 text-sm text-muted-foreground max-w-xs leading-relaxed">
+                Find somewhere worth going.
+                Curated weekend escapes and scenic trails around Mysuru and Bengaluru.
+              </p>
+            </div>
+
+            {/* Explore */}
+            <div>
+              <p className="text-xs tracking-[0.2em] text-muted-foreground mb-5">
+                EXPLORE
+              </p>
+
+              <div className="flex flex-col gap-3 text-sm">
+                <Link
+                  href="/explore"
+                  className="hover:text-muted-foreground transition-colors"
+                >
+                  Destinations
+                </Link>
+
+                <Link
+                  href="/trails"
+                  className="hover:text-muted-foreground transition-colors"
+                >
+                  Trails
+                </Link>
+
+                <Link
+                  href="/plan"
+                  className="hover:text-muted-foreground transition-colors"
+                >
+                  Plan a Weekend
+                </Link>
+              </div>
+            </div>
+
+            {/* About */}
+            <div>
+              <p className="text-xs tracking-[0.2em] text-muted-foreground mb-5">
+                AVARA
+              </p>
+
+              <div className="flex flex-col gap-3 text-sm">
+                <Link
+                  href="/about"
+                  className="hover:text-muted-foreground transition-colors"
+                >
+                  About Avara
+                </Link>
+
+                <a
+                  href="mailto:hello@avara.travel"
+                  className="hover:text-muted-foreground transition-colors"
+                >
+                  Contact
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+          <div className="mt-16 pt-6 border-t border-border flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-xs text-muted-foreground">
+            <p>© 2026 Avara</p>
+
+            <p>Mysuru · Bengaluru</p>
+          </div>
+
+        </div>
+      </footer>
     </div>
   );
 }

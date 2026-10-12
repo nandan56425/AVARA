@@ -66,6 +66,12 @@ export interface Destination {
   featured?: boolean;
   thisWeekend?: boolean;
   avaraPick?: boolean;
+  sourceUrls?: string[];
+  lastVerified?: string;
+  verificationStatus?: "unverified" | "partially-verified" | "verified";
+  permitRequired?: boolean;
+  bookingUrl?: string;
+  imageCredit?: string;
 }
 
 // ─── Trail ─────────────────────────────────────────────────────────────────
@@ -92,6 +98,12 @@ export interface Trail {
   recommendation: string;
   itinerary: ItineraryDay[];
   featured?: boolean;
+  sourceUrls?: string[];
+  lastVerified?: string;
+  verificationStatus?: "unverified" | "partially-verified" | "verified";
+  permitRequired?: boolean;
+  bookingUrl?: string;
+  imageCredit?: string;
 }
 
 // ─── Itinerary ─────────────────────────────────────────────────────────────

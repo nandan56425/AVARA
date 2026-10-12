@@ -36,8 +36,9 @@ export const mockTrails: Trail[] = [
       "Do not trek solo — always go in a group",
       "Trail is not recommended during heavy monsoon",
       "Leeches are common — carry salt and leech socks",
-      "Register at the forest office before starting",
-      "Demo data — not real trekking advice",
+      "Check current forest-department access rules, mandatory registration requirements, and daily visitor capacity limits before travelling",
+      "Verify current overnight-stay and camping permissions at Bhattara Mane or forest checkpoints with authorities in advance",
+      "Planning advisory: Trail regulations, permit requirements, and access rules change periodically — verify current guidelines and safety information with official forest authorities before travelling",
     ],
     recommendation:
       "This is a proper trek, not a casual walk. Come prepared, start early, and carry more water than you think you'll need.",
@@ -146,10 +147,12 @@ export const mockTrails: Trail[] = [
       "Comfortable trekking shoes",
     ],
     safetyNotes: [
+      "Check the official booking portal and secure a valid booking before attempting entry",
+      "Verify current forest-entry regulations, registration requirements, and checkpoint guidelines before travelling",
       "Do not venture off the marked trail in the dark",
       "Stay with your group",
       "Be careful on loose gravel sections near the top",
-      "Demo data — not real trekking advice",
+      "Planning advisory: Entry rules, slot availability, and safety guidelines must be verified through the official booking portal and authorities before planning your trip",
     ],
     recommendation:
       "The magic is in the timing. Start trekking around 2-3 AM to reach the summit before dawn. A full moon night makes the trail magical.",
@@ -237,7 +240,9 @@ export const mockTrails: Trail[] = [
     safetyNotes: [
       "Trail can be slippery in wet conditions",
       "No shade on the upper grasslands — start early",
-      "Demo data — not real trekking advice",
+      "Check current forest-department access rules, registration requirements, and daily capacity limits before travelling",
+      "Verify current overnight-stay and camping permissions with forest authorities in advance",
+      "Planning advisory: Access permissions, entry rules, and safety information must be verified with official forest authorities before your trip",
     ],
     recommendation:
       "Best combined with a Coorg weekend. Start the trek by 7 AM to avoid midday sun on the exposed upper trail.",
@@ -305,7 +310,7 @@ export const mockTrails: Trail[] = [
     distanceKm: 50,
     trailLengthKm: 5,
     duration: "Half day",
-    difficulty: "Easy",
+    difficulty: "Moderate",
     budgetRange: "Under ₹1,000",
     bestSeason: "Winter",
     experienceTags: ["Treks", "Sunrise"],
@@ -321,12 +326,13 @@ export const mockTrails: Trail[] = [
       "Sunscreen",
     ],
     safetyNotes: [
-      "Rocky sections can be slippery — avoid after rain",
-      "Start early to avoid heat",
-      "Demo data — not real trekking advice",
+      "Steep rocky sections on the monolith can be slippery — avoid trekking during or immediately after rain",
+      "Wear footwear with reliable grip for traction on the exposed rock face",
+      "Start early to avoid heat and direct sun exposure on the bare rock",
+      "Planning advisory: Check current local weather forecasts and trail access conditions before visiting",
     ],
     recommendation:
-      "Perfect for beginners or anyone wanting a quick morning trek without a long drive. Combine with breakfast at Manchanabele.",
+      "Suitable for trekkers with reasonable fitness wanting a quick morning climb without a long drive. Combine with breakfast at Manchanabele.",
     itinerary: [
       {
         day: 1,

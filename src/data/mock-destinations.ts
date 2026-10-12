@@ -13,7 +13,7 @@ export const mockDestinations: Destination[] = [
     distanceKm: 120,
     duration: "2 days",
     budgetRange: "₹2,000–₹4,000",
-    bestSeason: "Year-round",
+    bestSeason: "Post-monsoon",
     experienceTags: ["Scenic drives", "Photography", "Forests"],
     moodTags: ["Peaceful", "Romantic", "Weekend reset"],
     highlights: [
@@ -31,7 +31,7 @@ export const mockDestinations: Destination[] = [
     importantNotes: [
       "Roads can be foggy in early morning — drive carefully",
       "Leeches common during monsoon on forest trails",
-      "Demo data — not real travel advice",
+      "Budget estimate of ₹2,000–₹4,000 has not been verified; confirm transport, accommodation, meals and entry costs before travelling.",
     ],
     recommendation:
       "Best experienced over a full weekend. The drive itself is half the experience — leave early and take the scenic route through Kushalnagar.",
@@ -43,8 +43,8 @@ export const mockDestinations: Destination[] = [
           {
             time: "05:30",
             title: "Leave Mysuru",
-            description: "Start early to beat traffic and enjoy the morning light on the road.",
-            duration: "3h drive",
+            description: "Depart from Mysuru and allow extra time for traffic, weather and road conditions.",
+            duration: "Approximately 3h; verify current route conditions",
             type: "travel",
           },
           {
@@ -78,7 +78,7 @@ export const mockDestinations: Destination[] = [
           {
             time: "16:00",
             title: "Abbey Falls",
-            description: "Short walk to the waterfall viewpoint.",
+            description: "Visit the waterfall viewpoint if access is open. Check current local conditions before travelling.",
             duration: "1.5h",
             type: "highlight",
             tip: "Visit during or just after monsoon for the best flow.",
@@ -99,13 +99,13 @@ export const mockDestinations: Destination[] = [
           {
             time: "05:30",
             title: "Raja's Seat sunrise",
-            description: "Watch the sunrise over the valley from this popular viewpoint.",
+            description: "Enjoy the valley views if the viewpoint is open at your arrival time.",
             duration: "1h",
             type: "highlight",
-            tip: "Arrive early — it gets crowded after 6:30.",
+            tip: "Check current official opening hours before planning an early-morning visit.",
           },
           {
-            time: "07:00",
+            time: "07:15",
             title: "Breakfast",
             description: "Warm coffee and breakfast before heading back.",
             duration: "45 min",
@@ -124,6 +124,12 @@ export const mockDestinations: Destination[] = [
     featured: true,
     thisWeekend: true,
     avaraPick: true,
+    sourceUrls: [
+      "https://kodagu.nic.in/en/tourist-place/abbey-falls/",
+      "https://kodagu.nic.in/en/tourist-place/rajas-seat/",
+      "https://kodagu.nic.in/en/about-district/",
+    ],
+    verificationStatus: "partially-verified",
   },
   {
     slug: "nandi-hills-sunrise",
@@ -154,7 +160,6 @@ export const mockDestinations: Destination[] = [
     importantNotes: [
       "Gate opens at 5:00 AM — arrive early",
       "Crowded on weekends — weekday mornings are better",
-      "Demo data — not real travel advice",
     ],
     recommendation:
       "Leave Bengaluru by 4:00 AM to reach well before sunrise. The drive is part of the experience.",
@@ -203,6 +208,7 @@ export const mockDestinations: Destination[] = [
     ],
     featured: true,
     avaraPick: true,
+    verificationStatus: "unverified",
   },
   {
     slug: "br-hills-wildlife",
@@ -234,7 +240,6 @@ export const mockDestinations: Destination[] = [
     importantNotes: [
       "Forest entry permits may be required — check in advance",
       "Limited phone signal in some areas",
-      "Demo data — not real travel advice",
     ],
     recommendation:
       "This is for people who want quiet over convenience. Don't come expecting resort-style amenities — come for the forest.",
@@ -317,6 +322,7 @@ export const mockDestinations: Destination[] = [
     ],
     featured: true,
     thisWeekend: true,
+    verificationStatus: "unverified",
   },
   {
     slug: "mysuru-to-ooty-scenic",
@@ -346,7 +352,6 @@ export const mockDestinations: Destination[] = [
     ],
     importantNotes: [
       "Bandipur forest section closes at night — plan timing accordingly",
-      "Demo data — not real travel advice",
     ],
     recommendation:
       "The drive is the destination. Take it slow, stop at viewpoints, and don't rush through Bandipur.",
@@ -407,6 +412,7 @@ export const mockDestinations: Destination[] = [
       },
     ],
     avaraPick: true,
+    verificationStatus: "unverified",
   },
   {
     slug: "shivanasamudra-falls",
@@ -437,7 +443,6 @@ export const mockDestinations: Destination[] = [
     importantNotes: [
       "Extremely slippery near the falls — stay behind barriers",
       "Best visited July through October",
-      "Demo data — not real travel advice",
     ],
     recommendation:
       "Visit during peak monsoon for the full spectacle. Barachukki is more accessible; Gaganachukki offers the more dramatic view from a distance.",
@@ -485,6 +490,7 @@ export const mockDestinations: Destination[] = [
       },
     ],
     thisWeekend: true,
+    verificationStatus: "unverified",
   },
   {
     slug: "sakleshpur-green-route",
@@ -503,7 +509,7 @@ export const mockDestinations: Destination[] = [
     moodTags: ["Offbeat", "Peaceful", "Weekend reset"],
     highlights: [
       "Bisle Ghat viewpoint",
-      "Green Route railway trek",
+      "Permitted local viewpoints or walking routes",
       "Coffee and spice plantations",
       "Manjarabad Fort",
     ],
@@ -513,11 +519,10 @@ export const mockDestinations: Destination[] = [
       "Light rain jacket",
     ],
     importantNotes: [
-      "Railway trek requires advance planning — check current access status",
-      "Demo data — not real travel advice",
+      "Walking along active railway tracks or through railway tunnels and bridges is unsafe and strictly prohibited — verify access for permitted local viewpoints or walking routes with official/local authorities before visiting",
     ],
     recommendation:
-      "Combine the railway trek with a night at a plantation homestay for the full experience. This is not a place to rush through.",
+      "Combine a permitted local viewpoint or walking route with a night at a plantation homestay for the full experience. This is not a place to rush through.",
     itinerary: [
       {
         day: 1,
@@ -566,8 +571,9 @@ export const mockDestinations: Destination[] = [
         stops: [
           {
             time: "06:00",
-            title: "Green Route trek",
-            description: "Walk along the scenic railway line through tunnels and bridges.",
+            title: "Permitted local viewpoint or walking route",
+            description:
+              "Choose a permitted local viewpoint or walking route and verify access with official/local authorities before visiting.",
             duration: "3h",
             type: "highlight",
           },
@@ -589,5 +595,6 @@ export const mockDestinations: Destination[] = [
       },
     ],
     featured: true,
+    verificationStatus: "unverified",
   },
 ];

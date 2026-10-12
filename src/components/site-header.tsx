@@ -3,7 +3,7 @@ import { Mountain } from "lucide-react";
 
 const navigation = [
   { name: "Destinations", href: "/destinations" },
-  { name: "Treks", href: "/treks" },
+  { name: "Trails", href: "/trails" },
   { name: "About", href: "/about" },
 ] as const;
 
