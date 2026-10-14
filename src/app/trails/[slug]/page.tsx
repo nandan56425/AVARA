@@ -107,15 +107,18 @@ export default async function TrailDetailPage({
                 >
                   Laavanya Bhat · Unsplash
                 </a>
-              ) : trail.slug === "skandagiri-night-trek" ? (
-                <a
-                  href="https://commons.wikimedia.org/wiki/File:Cloud_over_Skandagiri_hills.jpg"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline underline-offset-2"
-                >
+              ) :
+                trail.slug === "skandagiri-night-trek" ? (
                   <>
-                    Aranyaparva ·{" "}
+                    <a
+                      href="https://commons.wikimedia.org/wiki/File:Cloud_over_Skandagiri_hills.jpg"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline underline-offset-2"
+                    >
+                      Aranyaparva
+                    </a>
+                    {" · "}
                     <a
                       href="https://creativecommons.org/licenses/by-sa/4.0/"
                       target="_blank"
@@ -125,46 +128,52 @@ export default async function TrailDetailPage({
                       CC BY-SA 4.0
                     </a>
                   </>
-                </a>
-              ) : trail.slug === "tadiandamol-peak" ? (
-                <a
-                  href="https://commons.wikimedia.org/wiki/File:Tadiandamol_landscape_-_vrvkbgmtmk1024_(518).jpg"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline underline-offset-2"
-                >
-                  <>
-                    Vinayaraj ·{" "}
-                    <a
-                      href="https://creativecommons.org/licenses/by-sa/4.0/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="underline underline-offset-2"
-                    >
-                      CC BY-SA 4.0
-                    </a>
-                  </>
-                </a>
-              ) : trail.slug === "savandurga-day-trek" ? (
-                <a
-                  href="https://commons.wikimedia.org/wiki/File:Savandurga_hill_top_view.jpg"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline underline-offset-2"
-                >
-                  <>
-                    Kyathamomkar ·{" "}
-                    <a
-                      href="https://creativecommons.org/licenses/by-sa/4.0/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="underline underline-offset-2"
-                    >
-                      CC BY-SA 4.0
-                    </a>
-                  </>
-                </a>
-              ) : null}
+                ) :
+
+                  trail.slug === "tadiandamol-peak" ? (
+                    <>
+                      <a
+                        href="https://commons.wikimedia.org/wiki/File:Tadiandamol_landscape_-_vrvkbgmtmk1024_(518).jpg"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline underline-offset-2"
+                      >
+                        Vinayaraj
+                      </a>
+                      {" · "}
+                      <a
+                        href="https://creativecommons.org/licenses/by-sa/4.0/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline underline-offset-2"
+                      >
+                        CC BY-SA 4.0
+                      </a>
+                    </>
+                  ) :
+
+                    trail.slug === "savandurga-day-trek" ? (
+                      <>
+                        <a
+                          href="https://commons.wikimedia.org/wiki/File:Savandurga_hill_top_view.jpg"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="underline underline-offset-2"
+                        >
+                          Kyathamomkar
+                        </a>
+                        {" · "}
+                        <a
+                          href="https://creativecommons.org/licenses/by-sa/4.0/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="underline underline-offset-2"
+                        >
+                          CC BY-SA 4.0
+                        </a>
+                      </>
+                    ) :
+                      null}
             </div>
             {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-black/20" />

@@ -93,13 +93,8 @@ export default async function DestinationPage({
                         >
                             Unsplash
                         </a>
-                    ) : destination.slug === "br-hills-wildlife" ? (
-                        <a
-                            href="https://commons.wikimedia.org/wiki/File:Biligiriranga_Hills,_B_R_Hills_-_during_PHMSTBGP-2020_(53).jpg"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="underline underline-offset-2"
-                        >
+                    ) :
+                        destination.slug === "br-hills-wildlife" ? (
                             <>
                                 <a
                                     href="https://commons.wikimedia.org/wiki/File:Biligiriranga_Hills,_B_R_Hills_-_during_PHMSTBGP-2020_(53).jpg"
@@ -119,28 +114,28 @@ export default async function DestinationPage({
                                     CC BY-SA 4.0
                                 </a>
                             </>
-                        </a>
-                    ) : destination.slug === "mysuru-to-ooty-scenic" ? (
-                        <span>Personal photograph</span>
-                    ) : destination.slug === "shivanasamudra-falls" ? (
-                        <a
-                            href="https://www.pexels.com/photo/scenic-view-of-lush-green-waterfalls-in-india-33889675/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="underline underline-offset-2"
-                        >
-                            Shreya O S · Pexels
-                        </a>
-                    ) : destination.slug === "sakleshpur-green-route" ? (
-                        <a
-                            href="https://unsplash.com/photos/green-trees-under-white-sky-during-daytime-f36eOQzzBm8"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="underline underline-offset-2"
-                        >
-                            Ben Abraham · Unsplash
-                        </a>
-                    ) : null}
+                        ) :
+                            destination.slug === "mysuru-to-ooty-scenic" ? (
+                                <span>Personal photograph</span>
+                            ) : destination.slug === "shivanasamudra-falls" ? (
+                                <a
+                                    href="https://www.pexels.com/photo/scenic-view-of-lush-green-waterfalls-in-india-33889675/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="underline underline-offset-2"
+                                >
+                                    Shreya O S · Pexels
+                                </a>
+                            ) : destination.slug === "sakleshpur-green-route" ? (
+                                <a
+                                    href="https://unsplash.com/photos/green-trees-under-white-sky-during-daytime-f36eOQzzBm8"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="underline underline-offset-2"
+                                >
+                                    Ben Abraham · Unsplash
+                                </a>
+                            ) : null}
                 </div>
                 {/* Gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
