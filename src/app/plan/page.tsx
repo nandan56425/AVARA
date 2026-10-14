@@ -11,7 +11,7 @@ const DESTINATION_IMAGES: Record<string, string> = {
     "coorg-weekend-escape": "/images/destinations/coorg.jpg",
     "nandi-hills-sunrise": "/images/destinations/nandi-hills.jpg",
     "br-hills-wildlife": "/images/destinations/br-hills.jpg",
-    "mysuru-to-ooty-scenic": "/images/destinations/mysuru-ooty.jpg",
+    "mysuru-to-ooty-scenic": "/images/destinations/mysuru-ooty1.jpg",
     "shivanasamudra-falls": "/images/destinations/shivanasamudra.jpg",
     "sakleshpur-green-route": "/images/destinations/sakleshpur.jpg",
 };
@@ -58,11 +58,10 @@ function Pill({
             type="button"
             onClick={onClick}
             aria-pressed={active}
-            className={`px-4 py-2 rounded-full text-xs tracking-wide border transition-colors ${
-                active
-                    ? "bg-foreground text-background border-foreground"
-                    : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
-            }`}
+            className={`px-4 py-2 rounded-full text-xs tracking-wide border transition-colors ${active
+                ? "bg-foreground text-background border-foreground"
+                : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
+                }`}
         >
             {label}
         </button>
@@ -239,8 +238,8 @@ export default function PlanPage() {
                             {results.length === 0
                                 ? "NO MATCHES"
                                 : results.length === 1
-                                ? "1 DESTINATION"
-                                : `${results.length} DESTINATIONS`}
+                                    ? "1 DESTINATION"
+                                    : `${results.length} DESTINATIONS`}
                         </p>
                         {hasFilters && results.length > 0 && (
                             <p className="text-xs text-muted-foreground">
@@ -318,11 +317,10 @@ export default function PlanPage() {
                                             {dest.moodTags.slice(0, 3).map((tag) => (
                                                 <span
                                                     key={tag}
-                                                    className={`text-[11px] px-3 py-1 rounded-sm font-medium transition-colors ${
-                                                        moods.has(tag)
-                                                            ? "bg-[#4A5D4E]/10 text-[#4A5D4E]"
-                                                            : "bg-secondary text-secondary-foreground"
-                                                    }`}
+                                                    className={`text-[11px] px-3 py-1 rounded-sm font-medium transition-colors ${moods.has(tag)
+                                                        ? "bg-[#4A5D4E]/10 text-[#4A5D4E]"
+                                                        : "bg-secondary text-secondary-foreground"
+                                                        }`}
                                                 >
                                                     {tag}
                                                 </span>

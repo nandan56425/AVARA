@@ -10,7 +10,7 @@ const DESTINATION_IMAGES: Record<string, string> = {
     "coorg-weekend-escape": "/images/destinations/coorg.jpg",
     "nandi-hills-sunrise": "/images/destinations/nandi-hills.jpg",
     "br-hills-wildlife": "/images/destinations/br-hills.jpg",
-    "mysuru-to-ooty-scenic": "/images/destinations/mysuru-ooty.jpg",
+    "mysuru-to-ooty-scenic": "/images/destinations/mysuru-ooty1.jpg",
     "shivanasamudra-falls": "/images/destinations/shivanasamudra.jpg",
     "sakleshpur-green-route": "/images/destinations/sakleshpur.jpg",
 };
@@ -80,6 +80,68 @@ export default async function DestinationPage({
                     alt={destination.name}
                     className="absolute inset-0 w-full h-full object-cover"
                 />
+                <div className="absolute bottom-3 right-4 z-20 text-[10px] text-white/80">
+                    Photo:{" "}
+                    {destination.slug === "coorg-weekend-escape" ? (
+                        <span>Pannaga Bhat</span>
+                    ) : destination.slug === "nandi-hills-sunrise" ? (
+                        <a
+                            href="https://unsplash.com/photos/green-mountain-under-white-clouds-during-daytime-14BYHQXQV2s"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="underline underline-offset-2"
+                        >
+                            Unsplash
+                        </a>
+                    ) : destination.slug === "br-hills-wildlife" ? (
+                        <a
+                            href="https://commons.wikimedia.org/wiki/File:Biligiriranga_Hills,_B_R_Hills_-_during_PHMSTBGP-2020_(53).jpg"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="underline underline-offset-2"
+                        >
+                            <>
+                                <a
+                                    href="https://commons.wikimedia.org/wiki/File:Biligiriranga_Hills,_B_R_Hills_-_during_PHMSTBGP-2020_(53).jpg"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="underline underline-offset-2"
+                                >
+                                    Vinayaraj
+                                </a>
+                                {" · "}
+                                <a
+                                    href="https://creativecommons.org/licenses/by-sa/4.0/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="underline underline-offset-2"
+                                >
+                                    CC BY-SA 4.0
+                                </a>
+                            </>
+                        </a>
+                    ) : destination.slug === "mysuru-to-ooty-scenic" ? (
+                        <span>Personal photograph</span>
+                    ) : destination.slug === "shivanasamudra-falls" ? (
+                        <a
+                            href="https://www.pexels.com/photo/scenic-view-of-lush-green-waterfalls-in-india-33889675/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="underline underline-offset-2"
+                        >
+                            Shreya O S · Pexels
+                        </a>
+                    ) : destination.slug === "sakleshpur-green-route" ? (
+                        <a
+                            href="https://unsplash.com/photos/green-trees-under-white-sky-during-daytime-f36eOQzzBm8"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="underline underline-offset-2"
+                        >
+                            Ben Abraham · Unsplash
+                        </a>
+                    ) : null}
+                </div>
                 {/* Gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 

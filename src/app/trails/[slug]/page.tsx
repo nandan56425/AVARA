@@ -95,6 +95,77 @@ export default async function TrailDetailPage({
               alt={trail.name}
               className="absolute inset-0 w-full h-full object-cover"
             />
+            {/* Photo credit */}
+            <div className="absolute bottom-3 right-4 z-20 text-[10px] text-white/80">
+              Photo:{" "}
+              {trail.slug === "kumara-parvatha-trek" ? (
+                <a
+                  href="https://unsplash.com/photos/a-view-of-a-mountain-range-covered-in-fog-5QLZPXkTOVU"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-2"
+                >
+                  Laavanya Bhat · Unsplash
+                </a>
+              ) : trail.slug === "skandagiri-night-trek" ? (
+                <a
+                  href="https://commons.wikimedia.org/wiki/File:Cloud_over_Skandagiri_hills.jpg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-2"
+                >
+                  <>
+                    Aranyaparva ·{" "}
+                    <a
+                      href="https://creativecommons.org/licenses/by-sa/4.0/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline underline-offset-2"
+                    >
+                      CC BY-SA 4.0
+                    </a>
+                  </>
+                </a>
+              ) : trail.slug === "tadiandamol-peak" ? (
+                <a
+                  href="https://commons.wikimedia.org/wiki/File:Tadiandamol_landscape_-_vrvkbgmtmk1024_(518).jpg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-2"
+                >
+                  <>
+                    Vinayaraj ·{" "}
+                    <a
+                      href="https://creativecommons.org/licenses/by-sa/4.0/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline underline-offset-2"
+                    >
+                      CC BY-SA 4.0
+                    </a>
+                  </>
+                </a>
+              ) : trail.slug === "savandurga-day-trek" ? (
+                <a
+                  href="https://commons.wikimedia.org/wiki/File:Savandurga_hill_top_view.jpg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-2"
+                >
+                  <>
+                    Kyathamomkar ·{" "}
+                    <a
+                      href="https://creativecommons.org/licenses/by-sa/4.0/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline underline-offset-2"
+                    >
+                      CC BY-SA 4.0
+                    </a>
+                  </>
+                </a>
+              ) : null}
+            </div>
             {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-black/20" />
 

@@ -9,7 +9,7 @@ const DESTINATION_IMAGES: Record<string, string> = {
     "coorg-weekend-escape": "/images/destinations/coorg.jpg",
     "nandi-hills-sunrise": "/images/destinations/nandi-hills.jpg",
     "br-hills-wildlife": "/images/destinations/br-hills.jpg",
-    "mysuru-to-ooty-scenic": "/images/destinations/mysuru-ooty.jpg",
+    "mysuru-to-ooty-scenic": "/images/destinations/mysuru-ooty1.jpg",
     "shivanasamudra-falls": "/images/destinations/shivanasamudra.jpg",
     "sakleshpur-green-route": "/images/destinations/sakleshpur.jpg",
 };
@@ -101,11 +101,10 @@ export default function ExplorePage() {
                             <div className="flex flex-wrap gap-2">
                                 <button
                                     onClick={resetFilters}
-                                    className={`px-4 py-1.5 rounded-full text-xs tracking-wide border transition-colors ${
-                                        !isFiltered
+                                    className={`px-4 py-1.5 rounded-full text-xs tracking-wide border transition-colors ${!isFiltered
                                             ? "bg-foreground text-background border-foreground"
                                             : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
-                                    }`}
+                                        }`}
                                 >
                                     All destinations
                                 </button>
@@ -115,11 +114,10 @@ export default function ExplorePage() {
                                         onClick={() =>
                                             setActiveCategory(activeCategory === tag ? null : tag)
                                         }
-                                        className={`px-4 py-1.5 rounded-full text-xs tracking-wide border transition-colors ${
-                                            activeCategory === tag
+                                        className={`px-4 py-1.5 rounded-full text-xs tracking-wide border transition-colors ${activeCategory === tag
                                                 ? "bg-foreground text-background border-foreground"
                                                 : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
-                                        }`}
+                                            }`}
                                     >
                                         {tag}
                                     </button>
@@ -139,11 +137,10 @@ export default function ExplorePage() {
                                         onClick={() =>
                                             setActiveMood(activeMood === tag ? null : tag)
                                         }
-                                        className={`px-4 py-1.5 rounded-full text-xs tracking-wide border transition-colors ${
-                                            activeMood === tag
+                                        className={`px-4 py-1.5 rounded-full text-xs tracking-wide border transition-colors ${activeMood === tag
                                                 ? "bg-foreground text-background border-foreground"
                                                 : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
-                                        }`}
+                                            }`}
                                     >
                                         {tag}
                                     </button>

@@ -158,8 +158,10 @@ export const mockDestinations: Destination[] = [
       "Water",
     ],
     importantNotes: [
-      "Gate opens at 5:00 AM — arrive early",
-      "Crowded on weekends — weekday mornings are better",
+      "Karnataka Tourism lists entry timings as 6:00 AM–6:00 PM; another official tourism page lists different closing hours. Confirm current timings before visiting.",
+      "Weekend crowd levels can vary; allow extra time for parking and access.",
+      "Paragliding availability depends on current operator arrangements and weather conditions; verify availability before planning around it.",
+      "The budget estimate is unverified; confirm transport, food, parking and entry costs before travelling.",
     ],
     recommendation:
       "Leave Bengaluru by 4:00 AM to reach well before sunrise. The drive is part of the experience.",
@@ -177,15 +179,15 @@ export const mockDestinations: Destination[] = [
           },
           {
             time: "05:30",
-            title: "Arrive at Nandi Hills gate",
-            description: "Park and walk up or drive to the viewpoint.",
-            duration: "20 min",
+            title: "Arrive near Nandi Hills",
+            description: "Reach the area before sunrise, but confirm current gate opening and access arrangements before planning your visit.",
+            duration: "30 min",
             type: "travel",
           },
           {
             time: "06:00",
-            title: "Sunrise",
-            description: "Find a quiet spot and watch the light break through the fog.",
+            title: "Sunrise viewing",
+            description: "Enjoy the sunrise if access is open and conditions allow; otherwise, adjust your visit to the confirmed entry time.",
             duration: "45 min",
             type: "highlight",
           },
@@ -208,7 +210,12 @@ export const mockDestinations: Destination[] = [
     ],
     featured: true,
     avaraPick: true,
-    verificationStatus: "unverified",
+    sourceUrls: [
+      "https://karnatakatourism.org/en/attractions/nandi-hills/",
+      "https://chikkaballapur.nic.in/en/tourist-place/nandi-hills/",
+    ],
+    verificationStatus: "partially-verified",
+    lastVerified: "2026-10-13",
   },
   {
     slug: "br-hills-wildlife",
@@ -238,8 +245,11 @@ export const mockDestinations: Destination[] = [
       "Torch/flashlight",
     ],
     importantNotes: [
-      "Forest entry permits may be required — check in advance",
-      "Limited phone signal in some areas",
+      "BR Hills is a protected wildlife area. Confirm current access rules and obtain any required permissions before entering forest areas.",
+      "Do not assume independent forest walks are permitted; confirm approved trails and guide requirements with the relevant authorities or authorised operators.",
+      "Safari availability, schedules and prices can change. Confirm current details with the official operator before planning around a safari.",
+      "Phone coverage may be limited in some areas; plan navigation and communication accordingly.",
+      "The budget estimate is unverified; confirm transport, accommodation, meals and activity costs before travelling.",
     ],
     recommendation:
       "This is for people who want quiet over convenience. Don't come expecting resort-style amenities — come for the forest.",
@@ -279,7 +289,7 @@ export const mockDestinations: Destination[] = [
           {
             time: "15:00",
             title: "Temple visit",
-            description: "Visit the Biligiri Rangaswamy Temple.",
+            description: "Visit Biligiri Rangaswamy Temple, subject to current temple opening hours and access arrangements.",
             duration: "1.5h",
             type: "highlight",
           },
@@ -299,7 +309,7 @@ export const mockDestinations: Destination[] = [
           {
             time: "05:30",
             title: "Early morning forest walk",
-            description: "The forest is most alive at dawn.",
+            description: "Enjoy an early-morning nature experience only where access is permitted; confirm current forest entry rules and guide requirements in advance.",
             duration: "1.5h",
             type: "highlight",
           },
@@ -313,7 +323,7 @@ export const mockDestinations: Destination[] = [
           {
             time: "09:00",
             title: "Drive back to Mysuru",
-            description: "Scenic drive back through the foothills.",
+            description: "Return towards Mysuru, allowing extra time for road conditions and any forest-area access restrictions.",
             duration: "2.5h",
             type: "travel",
           },
@@ -322,7 +332,13 @@ export const mockDestinations: Destination[] = [
     ],
     featured: true,
     thisWeekend: true,
-    verificationStatus: "unverified",
+    sourceUrls: [
+      "https://karnatakatourism.org/en/experiences/brt-wildlife-sanctuary",
+      "https://karnatakatourism.org/en/experiences/brt-tiger-reserve-and-wildlife-sanctuary/",
+      "https://karnatakatourism.org/en/attractions/br-hills",
+    ],
+    verificationStatus: "partially-verified",
+    lastVerified: "2026-10-13",
   },
   {
     slug: "mysuru-to-ooty-scenic",
@@ -351,10 +367,13 @@ export const mockDestinations: Destination[] = [
       "Camera for the Ghat drive",
     ],
     importantNotes: [
-      "Bandipur forest section closes at night — plan timing accordingly",
+      "The Bandipur forest-road corridor has night-traffic restrictions. Confirm current official timings and plan the crossing during permitted hours.",
+      "The 36-hairpin-bend section is the steep Masinagudi–Kalhatty approach, not the standard Gudalur route. Check current vehicle restrictions and road conditions before choosing it.",
+      "Allow extra time for forest crossings, ghat roads, weather and stops. Do not rely on a fixed travel duration.",
+      "The budget estimate is unverified; confirm transport, accommodation, meals and attraction costs before travelling.",
     ],
     recommendation:
-      "The drive is the destination. Take it slow, stop at viewpoints, and don't rush through Bandipur.",
+      "Plan the drive around current road and forest-access rules. The steep Masinagudi–Kalhatty approach has 36 hairpin bends and is distinct from the Gudalur route; confirm route suitability and restrictions before setting out.",
     itinerary: [
       {
         day: 1,
@@ -412,21 +431,27 @@ export const mockDestinations: Destination[] = [
       },
     ],
     avaraPick: true,
-    verificationStatus: "unverified",
+    sourceUrls: [
+      "https://karnatakatourism.org/en/experiences/bandipur-national-park",
+      "https://www.prod.incredibleindia.gov.in/content/incredible-india-v2/en/itineraries/road-trips/road-to-indias-heritage.html",
+      "https://mee-tr.wii.gov.in/Home/Geospatial/bandipur-tiger-reserve",
+    ],
+    verificationStatus: "partially-verified",
+    lastVerified: "2026-10-13",
   },
   {
     slug: "shivanasamudra-falls",
     name: "Shivanasamudra Falls",
     tagline: "Karnataka's hidden waterfall on the Kaveri",
     description:
-      "A powerful segmented waterfall on the Kaveri river, best visited during or just after the monsoon when the falls are at their most dramatic.",
+      "A spectacular segmented waterfall on the Kaveri river. Water flow varies with rainfall, so check current conditions and visitor-access advisories before planning your visit.",
     heroImage: "/images/placeholder-hero.jpg",
     images: [],
     startingCity: "Bengaluru",
     distanceKm: 130,
     duration: "1 day",
     budgetRange: "₹1,000–₹2,000",
-    bestSeason: "Monsoon",
+    bestSeason: "Post-monsoon",
     experienceTags: ["Waterfalls", "Photography"],
     moodTags: ["Adventurous", "Photography", "Family-friendly"],
     highlights: [
@@ -441,11 +466,14 @@ export const mockDestinations: Destination[] = [
       "Change of clothes",
     ],
     importantNotes: [
-      "Extremely slippery near the falls — stay behind barriers",
-      "Best visited July through October",
+      "Stay within designated visitor areas and obey barriers and local safety instructions.",
+      "Water levels, currents and viewpoint access can change with rainfall. Confirm current conditions before travelling.",
+      "Do not enter the river or attempt to reach the waterfall base unless access is explicitly permitted by the authorities.",
+      "The budget estimate is unverified; confirm transport, food, parking and any entry costs before travelling.",
+      "Waterfall flow varies seasonally; stronger flow does not guarantee safe access. Follow current local advisories.",
     ],
     recommendation:
-      "Visit during peak monsoon for the full spectacle. Barachukki is more accessible; Gaganachukki offers the more dramatic view from a distance.",
+      "Plan your visit around current rainfall, access conditions and safety advisories. Enjoy the designated viewpoints without approaching restricted waterfall or river areas.",
     itinerary: [
       {
         day: 1,
@@ -454,7 +482,7 @@ export const mockDestinations: Destination[] = [
           {
             time: "05:30",
             title: "Leave Bengaluru",
-            description: "Early start for the 3-hour drive.",
+            description: "Depart from Bengaluru and allow extra time for traffic, route conditions and stops; verify the current journey time before travelling.",
             duration: "3h",
             type: "travel",
           },
@@ -468,7 +496,7 @@ export const mockDestinations: Destination[] = [
           {
             time: "10:00",
             title: "Barachukki Falls",
-            description: "Walk down to the base area and feel the spray.",
+            description: "Explore the designated viewpoint or visitor area if open. Confirm current access restrictions before planning a walk towards the falls.",
             duration: "2h",
             type: "highlight",
           },
@@ -482,7 +510,7 @@ export const mockDestinations: Destination[] = [
           {
             time: "14:00",
             title: "Drive back to Bengaluru",
-            description: "Relaxed drive home.",
+            description: "Return to Bengaluru, allowing extra time for traffic and road conditions.",
             duration: "3h",
             type: "travel",
           },
@@ -490,6 +518,7 @@ export const mockDestinations: Destination[] = [
       },
     ],
     thisWeekend: true,
+    sourceUrls: [],
     verificationStatus: "unverified",
   },
   {
@@ -519,7 +548,11 @@ export const mockDestinations: Destination[] = [
       "Light rain jacket",
     ],
     importantNotes: [
-      "Walking along active railway tracks or through railway tunnels and bridges is unsafe and strictly prohibited — verify access for permitted local viewpoints or walking routes with official/local authorities before visiting",
+      "Check current road conditions, weather and local access restrictions before setting out.",
+      "Do not enter railway tracks, tunnels or railway property for sightseeing or photography; use only permitted public viewpoints and routes.",
+      "Monsoon rain can affect visibility, road conditions and access to outdoor attractions. Check current local advisories before travelling.",
+      "Confirm opening hours, entry requirements and availability directly with each attraction before visiting.",
+      "The budget estimate is unverified; confirm transport, accommodation, meals and attraction costs before travelling.",
     ],
     recommendation:
       "Combine a permitted local viewpoint or walking route with a night at a plantation homestay for the full experience. This is not a place to rush through.",
@@ -595,6 +628,7 @@ export const mockDestinations: Destination[] = [
       },
     ],
     featured: true,
+    sourceUrls: [],
     verificationStatus: "unverified",
   },
 ];
