@@ -7,8 +7,8 @@ export const mockTrails: Trail[] = [
     tagline: "One of Karnataka's most rewarding summit treks",
     description:
       "A challenging multi-day trek through dense forest to one of the highest peaks in Coorg. The trail rewards with panoramic views of the Western Ghats.",
-    heroImage: "/images/placeholder-hero.jpg",
-    images: ["/images/placeholder-1.jpg"],
+    heroImage: "/images/trails/kumara-parvatha.jpg",
+    images: [],
     startingCity: "Mysuru",
     distanceKm: 210,
     trailLengthKm: 22, // Approximate; confirm route and round-trip distance
@@ -128,7 +128,7 @@ export const mockTrails: Trail[] = [
     tagline: "Moonlit trail to a sunrise summit",
     description:
       "A popular night trek from Bengaluru that starts in darkness and ends with sunrise above the clouds. The trail is moderate and well-marked.",
-    heroImage: "/images/placeholder-hero.jpg",
+    heroImage: "/images/trails/skandagiri.jpg",
     images: [],
     startingCity: "Bengaluru",
     distanceKm: 70,
@@ -223,7 +223,7 @@ export const mockTrails: Trail[] = [
     tagline: "The highest peak in Coorg",
     description:
       "A moderately challenging trek to the highest point in Kodagu district. Rolling grasslands, wildflowers in season, and sweeping views from the summit.",
-    heroImage: "/images/placeholder-hero.jpg",
+    heroImage: "/images/trails/tadiandamol.jpg",
     images: [],
     startingCity: "Mysuru",
     distanceKm: 150,
@@ -321,7 +321,7 @@ export const mockTrails: Trail[] = [
     tagline: "Asia's largest monolith, close to Bengaluru",
     description:
       "A short but steep trek up one of the largest monolith hills in Asia. Close enough to Bengaluru for a morning trek.",
-    heroImage: "/images/placeholder-hero.jpg",
+    heroImage: "/images/trails/savandurga.jpg",
     images: [],
     startingCity: "Bengaluru",
     distanceKm: 50,

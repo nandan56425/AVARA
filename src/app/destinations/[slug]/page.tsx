@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { mockDestinations } from "@/data/mock-destinations";
-import type { ItineraryStop } from "@/types";
+import type { ItineraryDay, ItineraryStop } from "@/types";
 
 // ─── Image map ────────────────────────────────────────────────────────────────
 
@@ -53,6 +53,32 @@ const STOP_TYPE_STYLES: Record<
     food: { dot: "bg-amber-600/70", label: "Food" },
     rest: { dot: "bg-stone-300", label: "Rest" },
 };
+
+// ─── Google Maps multi-stop route builder ────────────────────────────────────
+// Builds a Directions URL with the non-rest stops of a single day as an
+// ordered route: origin → intermediate waypoints → final destination.
+// Excludes "rest" stops (check-in, pack-up, etc.) because they are not
+// discrete navigable places; "travel" stops are also excluded since they
+// represent the journey itself rather than a named location.
+
+function buildDayRouteUrl(
+    day: ItineraryDay,
+    destinationName: string
+): string | null {
+    const places = day.stops
+        .filter((s) => s.type !== "rest" && s.type !== "travel")
+        .map((s) => encodeURIComponent(`${s.title} ${destinationName}`));
+
+    if (places.length < 2) return null;
+
+    const [origin, ...rest] = places;
+    const destination = rest[rest.length - 1];
+    const waypoints = rest.slice(0, -1);
+
+    const base = "https://www.google.com/maps/dir/";
+    const parts = [origin, ...waypoints, destination];
+    return `${base}${parts.join("/")}`;
+}
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
@@ -172,10 +198,13 @@ export default async function DestinationPage({
                 <section aria-label="Travel information">
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-px bg-border border border-border rounded-sm overflow-hidden">
                         {[
-                            { label: "FROM", value: destination.startingCity },
-                            { label: "DISTANCE", value: `${destination.distanceKm} km` },
-                            { label: "DURATION", value: destination.duration },
-                            { label: "BUDGET", value: destination.budgetRange },
+                            { label: "STARTING CITY", value: destination.startingCity },
+                            {
+                                label: "DISTANCE",
+                                value: `${destination.distanceKm} km from ${destination.startingCity}`,
+                            },
+                            { label: "TRIP LENGTH", value: destination.duration },
+                            { label: "ESTIMATED BUDGET", value: destination.budgetRange },
                             { label: "BEST SEASON", value: destination.bestSeason },
                         ].map(({ label, value }) => (
                             <div key={label} className="bg-background px-5 py-5">
@@ -277,7 +306,7 @@ export default async function DestinationPage({
                                                 {/* Content */}
                                                 <div className="flex-1 min-w-0">
                                                     <div className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5 mb-1">
-                                                        <span className="text-[11px] tabular-nums text-muted-foreground">
+                                                        <span className="text-xs font-medium tabular-nums text-foreground whitespace-nowrap">
                                                             {stop.time}
                                                         </span>
                                                         <h3 className="text-sm font-medium">
@@ -315,6 +344,39 @@ export default async function DestinationPage({
                                         );
                                     })}
                                 </ol>
+
+                                {/* Per-day route link */}
+                                {(() => {
+                                    const routeUrl = buildDayRouteUrl(
+                                        day,
+                                        destination.name
+                                    );
+                                    return routeUrl ? (
+                                        <div className="mt-6 pt-5 border-t border-border">
+                                            <a
+                                                href={routeUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center gap-2 text-[11px] tracking-[0.14em] text-muted-foreground hover:text-foreground transition-colors group"
+                                            >
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                    className="w-3.5 h-3.5 shrink-0 text-[#4A5D4E] group-hover:text-foreground transition-colors"
+                                                    aria-hidden="true"
+                                                >
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3H8v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z"
+                                                        clipRule="evenodd"
+                                                    />
+                                                </svg>
+                                                OPEN DAY {day.day} ROUTE IN GOOGLE MAPS
+                                            </a>
+                                        </div>
+                                    ) : null;
+                                })()}
                             </div>
                         ))}
                     </div>
@@ -352,11 +414,6 @@ export default async function DestinationPage({
                             </p>
                             <ul className="space-y-3">
                                 {destination.importantNotes
-                                    .filter(
-                                        (note) =>
-                                            note.trim() !==
-                                            "Demo data — not real travel advice"
-                                    )
                                     .map((note) => (
                                         <li
                                             key={note}
@@ -419,7 +476,30 @@ export default async function DestinationPage({
                 </section>
 
                 {/* ── Back link ──────────────────────────────────────────── */}
-                <div className="border-t border-border pt-10">
+                <div className="border-t border-border pt-10 space-y-8">
+                    <div className="py-8 md:py-12">
+                        <p className="text-xs tracking-[0.2em] text-muted-foreground mb-4">
+                            READY FOR YOUR NEXT ESCAPE?
+                        </p>
+
+                        <h2 className="font-serif text-3xl md:text-4xl tracking-tight max-w-xl">
+                            Turn inspiration into a weekend worth remembering.
+                        </h2>
+
+                        <p className="mt-4 text-sm md:text-base text-muted-foreground leading-relaxed max-w-xl">
+                            Find destinations that match your starting city, available time,
+                            and preferred kind of escape.
+                        </p>
+
+                        <Link
+                            href="/plan"
+                            className="inline-flex items-center gap-3 mt-6 px-6 py-3 bg-foreground text-background text-sm transition-opacity hover:opacity-80"
+                        >
+                            Plan your trip
+                            <span aria-hidden="true">→</span>
+                        </Link>
+                    </div>
+
                     <Link
                         href="/explore"
                         className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"

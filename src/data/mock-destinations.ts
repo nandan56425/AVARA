@@ -7,8 +7,8 @@ export const mockDestinations: Destination[] = [
     tagline: "Coffee country and misty hills",
     description:
       "A weekend escape into the Western Ghats — rolling coffee estates, quiet mist, and winding roads through one of Karnataka's most beautiful hill regions.",
-    heroImage: "/images/placeholder-hero.jpg",
-    images: ["/images/placeholder-1.jpg", "/images/placeholder-2.jpg"],
+    heroImage: "/images/destinations/coorg.jpg",
+    images: [],
     startingCity: "Mysuru",
     distanceKm: 120,
     duration: "2 days",
@@ -137,15 +137,15 @@ export const mockDestinations: Destination[] = [
     tagline: "The classic Bengaluru sunrise drive",
     description:
       "An early morning drive from Bengaluru to one of the most popular sunrise points in Karnataka. Best on clear mornings when the fog rolls across the valley below.",
-    heroImage: "/images/placeholder-hero.jpg",
-    images: ["/images/placeholder-1.jpg"],
+    heroImage: "/images/destinations/nandi-hills.jpg",
+    images: [],
     startingCity: "Bengaluru",
     distanceKm: 60,
     duration: "Half day",
     budgetRange: "Under ₹1,000",
     bestSeason: "Winter",
     experienceTags: ["Sunrise", "Photography", "Scenic drives"],
-    moodTags: ["Photography", "Peaceful", "Family-friendly"],
+    moodTags: ["Peaceful", "Family-friendly"],
     highlights: [
       "Sunrise over the fog valley",
       "Tipu Sultan's Summer Residence",
@@ -223,8 +223,8 @@ export const mockDestinations: Destination[] = [
     tagline: "Where the Eastern and Western Ghats meet",
     description:
       "A quieter alternative to more popular hill stations — BR Hills offers dense forests, wildlife sightings, and a spiritual calm at the Biligiri Rangaswamy Temple.",
-    heroImage: "/images/placeholder-hero.jpg",
-    images: ["/images/placeholder-1.jpg"],
+    heroImage: "/images/destinations/br-hills.jpg",
+    images: [],
     startingCity: "Mysuru",
     distanceKm: 80,
     duration: "2 days",
@@ -275,7 +275,7 @@ export const mockDestinations: Destination[] = [
           {
             time: "10:00",
             title: "Nature walk",
-            description: "Guided or self-guided walk through the forest edge.",
+            description: "Guided walk through the forest edge — confirm approved trails and guide requirements with the relevant authorities or operators before visiting.",
             duration: "2h",
             type: "activity",
           },
@@ -346,7 +346,7 @@ export const mockDestinations: Destination[] = [
     tagline: "The scenic route through the Ghats",
     description:
       "One of the most beautiful drives in South India — climbing from the plains through 36 hairpin bends, past Bandipur forest, into the Nilgiris.",
-    heroImage: "/images/placeholder-hero.jpg",
+    heroImage: "/images/destinations/mysuru-ooty1.jpg",
     images: [],
     startingCity: "Mysuru",
     distanceKm: 125,
@@ -422,9 +422,16 @@ export const mockDestinations: Destination[] = [
           },
           {
             time: "08:00",
-            title: "Breakfast and depart",
-            description: "Head back to Mysuru via the same scenic route.",
-            duration: "4h",
+            title: "Breakfast",
+            description: "A meal in Ooty before the drive back.",
+            duration: "45 min",
+            type: "food",
+          },
+          {
+            time: "08:45",
+            title: "Drive back to Mysuru",
+            description: "Head back via the same scenic route, allowing extra time for forest crossings and ghat road conditions.",
+            duration: "Approx. 4h",
             type: "travel",
           },
         ],
@@ -445,7 +452,7 @@ export const mockDestinations: Destination[] = [
     tagline: "Karnataka's hidden waterfall on the Kaveri",
     description:
       "A spectacular segmented waterfall on the Kaveri river. Water flow varies with rainfall, so check current conditions and visitor-access advisories before planning your visit.",
-    heroImage: "/images/placeholder-hero.jpg",
+    heroImage: "/images/destinations/shivanasamudra.jpg",
     images: [],
     startingCity: "Bengaluru",
     distanceKm: 130,
@@ -518,8 +525,11 @@ export const mockDestinations: Destination[] = [
       },
     ],
     thisWeekend: true,
-    sourceUrls: [],
-    verificationStatus: "unverified",
+    sourceUrls: [
+      "https://en.wikipedia.org/wiki/Shivanasamudra_Falls",
+    ],
+    verificationStatus: "partially-verified",
+    lastVerified: "2026-10-22",
   },
   {
     slug: "sakleshpur-green-route",
@@ -527,7 +537,7 @@ export const mockDestinations: Destination[] = [
     tagline: "The green route through coffee and spice country",
     description:
       "A lesser-known hill region connected by one of Karnataka's greenest railway routes. Rolling estates, quiet homestays, and scenic trails.",
-    heroImage: "/images/placeholder-hero.jpg",
+    heroImage: "/images/destinations/sakleshpur.jpg",
     images: [],
     startingCity: "Bengaluru",
     distanceKm: 220,
@@ -538,7 +548,6 @@ export const mockDestinations: Destination[] = [
     moodTags: ["Offbeat", "Peaceful", "Weekend reset"],
     highlights: [
       "Bisle Ghat viewpoint",
-      "Permitted local viewpoints or walking routes",
       "Coffee and spice plantations",
       "Manjarabad Fort",
     ],
@@ -604,11 +613,13 @@ export const mockDestinations: Destination[] = [
         stops: [
           {
             time: "06:00",
-            title: "Permitted local viewpoint or walking route",
+            title: "Bisle Ghat viewpoint",
+
             description:
-              "Choose a permitted local viewpoint or walking route and verify access with official/local authorities before visiting.",
+              "Visit the Bisle Ghat area for views of the Western Ghats, subject to current access conditions. Confirm permitted routes, entry arrangements and local guidance before setting out. Visibility varies with weather and season.",
             duration: "3h",
             type: "highlight",
+            tip: "Mobile coverage is minimal — download an offline map before leaving the homestay.",
           },
           {
             time: "09:30",
@@ -628,7 +639,11 @@ export const mockDestinations: Destination[] = [
       },
     ],
     featured: true,
-    sourceUrls: [],
+
+    sourceUrls: [
+      "https://en.wikipedia.org/wiki/Manjarabad_Fort",
+    ],
+
     verificationStatus: "unverified",
   },
 ];

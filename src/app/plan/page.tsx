@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { mockDestinations } from "@/data/mock-destinations";
 import type { StartingCity, Duration, MoodTag } from "@/types";
@@ -73,9 +73,53 @@ function Pill({
 export default function PlanPage() {
     const [city, setCity] = useState<StartingCity | null>(null);
     const [duration, setDuration] = useState<Duration | null>(null);
+    const [budget, setBudget] = useState<string | null>(null);
     const [moods, setMoods] = useState<Set<MoodTag>>(new Set());
+    const [savedTrips, setSavedTrips] = useState<string[]>([]);
+    const [savedTripsLoaded, setSavedTripsLoaded] = useState(false);
 
-    const hasFilters = city !== null || duration !== null || moods.size > 0;
+    useEffect(() => {
+        try {
+            const stored = localStorage.getItem("avara-saved-trips");
+            if (stored) {
+                const parsed: unknown = JSON.parse(stored);
+                if (
+                    Array.isArray(parsed) &&
+                    parsed.every((item) => typeof item === "string")
+                ) {
+                    setSavedTrips(parsed);
+                }
+            }
+        } catch {
+            // Ignore invalid or unavailable browser storage.
+        } finally {
+            setSavedTripsLoaded(true);
+        }
+    }, []);
+
+
+    function toggleSavedTrip(slug: string) {
+        if (!savedTripsLoaded) return;
+
+        const next = savedTrips.includes(slug)
+            ? savedTrips.filter((item) => item !== slug)
+            : [...savedTrips, slug];
+
+        setSavedTrips(next);
+
+        try {
+            localStorage.setItem("avara-saved-trips", JSON.stringify(next));
+        } catch {
+            // The current session still updates if storage is unavailable.
+        }
+    }
+
+
+    const hasFilters =
+        city !== null ||
+        duration !== null ||
+        budget !== null ||
+        moods.size > 0;
 
     function toggleMood(mood: MoodTag) {
         setMoods((prev) => {
@@ -93,6 +137,7 @@ export default function PlanPage() {
         setCity(null);
         setDuration(null);
         setMoods(new Set());
+        setBudget(null);
     }
 
     const results = useMemo(() => {
@@ -102,6 +147,7 @@ export default function PlanPage() {
             .map((dest) => {
                 if (city !== null && dest.startingCity !== city) return null;
                 if (duration !== null && dest.duration !== duration) return null;
+                if (budget !== null && dest.budgetRange !== budget) return null;
 
                 const moodScore =
                     selectedMoods.length === 0
@@ -118,7 +164,7 @@ export default function PlanPage() {
             )
             .sort((a, b) => b.moodScore - a.moodScore)
             .map((r) => r.dest);
-    }, [city, duration, moods]);
+    }, [city, duration, budget, moods]);
 
     return (
         <main className="min-h-screen">
@@ -192,6 +238,28 @@ export default function PlanPage() {
                         </div>
                     </fieldset>
 
+                    {/* Budget */}
+                    <fieldset>
+                        <legend className="text-[10px] tracking-[0.2em] text-muted-foreground mb-4 block">
+                            WHAT IS YOUR BUDGET?
+                        </legend>
+                        <div className="flex flex-wrap gap-2">
+                            <Pill
+                                label="Any budget"
+                                active={budget === null}
+                                onClick={() => setBudget(null)}
+                            />
+                            {["Under ₹1,000", "₹1,000–₹2,000", "₹2,000–₹4,000"].map((option) => (
+                                <Pill
+                                    key={option}
+                                    label={option}
+                                    active={budget === option}
+                                    onClick={() => setBudget(budget === option ? null : option)}
+                                />
+                            ))}
+                        </div>
+                    </fieldset>
+
                     {/* Mood */}
                     <fieldset>
                         <legend className="text-[10px] tracking-[0.2em] text-muted-foreground mb-1 block">
@@ -233,6 +301,10 @@ export default function PlanPage() {
                 <div className="max-w-4xl mx-auto px-6 md:px-10">
 
                     {/* Count header */}
+                    <p className="text-xs text-muted-foreground mb-6 leading-relaxed">
+                        Budgets are indicative estimates, not confirmed prices. Verify
+                        transport, accommodation, meals and entry fees before travelling.
+                    </p>
                     <div className="flex items-baseline justify-between mb-10 md:mb-14">
                         <p className="text-[10px] tracking-[0.2em] text-muted-foreground">
                             {results.length === 0
@@ -270,64 +342,91 @@ export default function PlanPage() {
                     ) : (
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
                             {results.map((dest) => (
-                                <Link
-                                    key={dest.slug}
-                                    href={`/destinations/${dest.slug}`}
-                                    className="group flex flex-col"
-                                >
-                                    {/* Image */}
-                                    <div className="relative aspect-[3/2] overflow-hidden rounded-sm bg-muted mb-5">
-                                        <img
-                                            src={
-                                                DESTINATION_IMAGES[dest.slug] ??
-                                                dest.heroImage
-                                            }
-                                            alt={dest.name}
-                                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                        />
-                                    </div>
-
-                                    {/* Meta row */}
-                                    <div className="flex items-center gap-3 mb-3">
-                                        <span className="text-[10px] tracking-[0.15em] text-muted-foreground uppercase">
-                                            From {dest.startingCity}
-                                        </span>
-                                        <span
-                                            className="w-1 h-1 rounded-full bg-border"
-                                            aria-hidden="true"
-                                        />
-                                        <span className="text-[10px] tracking-[0.15em] text-muted-foreground uppercase">
-                                            {dest.duration}
-                                        </span>
-                                    </div>
-
-                                    {/* Name */}
-                                    <h2 className="font-serif text-2xl md:text-3xl tracking-tight mb-2 transition-colors group-hover:text-[#4A5D4E]">
-                                        {dest.name}
-                                    </h2>
-
-                                    {/* Tagline */}
-                                    <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
-                                        {dest.tagline}
-                                    </p>
-
-                                    {/* Mood tags */}
-                                    {dest.moodTags.length > 0 && (
-                                        <div className="mt-4 flex flex-wrap gap-1.5">
-                                            {dest.moodTags.slice(0, 3).map((tag) => (
-                                                <span
-                                                    key={tag}
-                                                    className={`text-[11px] px-3 py-1 rounded-sm font-medium transition-colors ${moods.has(tag)
-                                                        ? "bg-[#4A5D4E]/10 text-[#4A5D4E]"
-                                                        : "bg-secondary text-secondary-foreground"
-                                                        }`}
-                                                >
-                                                    {tag}
-                                                </span>
-                                            ))}
+                                <div key={dest.slug} className="group flex flex-col">
+                                    <Link
+                                        href={`/destinations/${dest.slug}`}
+                                        className="flex flex-col"
+                                    >
+                                        {/* Image */}
+                                        <div className="relative aspect-[3/2] overflow-hidden rounded-sm bg-muted mb-5">
+                                            <img
+                                                src={
+                                                    DESTINATION_IMAGES[dest.slug] ??
+                                                    dest.heroImage
+                                                }
+                                                alt={dest.name}
+                                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                            />
                                         </div>
-                                    )}
-                                </Link>
+
+                                        {/* Meta row */}
+                                        <div className="flex items-center gap-3 mb-3">
+                                            <span className="text-[10px] tracking-[0.15em] text-muted-foreground uppercase">
+                                                From {dest.startingCity}
+                                            </span>
+                                            <span
+                                                className="w-1 h-1 rounded-full bg-border"
+                                                aria-hidden="true"
+                                            />
+                                            <span className="text-[10px] tracking-[0.15em] text-muted-foreground uppercase">
+                                                {dest.duration}
+                                            </span>
+                                        </div>
+
+                                        {/* Name */}
+                                        <h2 className="font-serif text-2xl md:text-3xl tracking-tight mb-2 transition-colors group-hover:text-[#4A5D4E]">
+                                            {dest.name}
+                                        </h2>
+
+                                        {/* Tagline */}
+                                        <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
+                                            {dest.tagline}
+                                        </p>
+                                        {hasFilters && (
+                                            <p className="mt-3 text-xs text-muted-foreground leading-relaxed">
+                                                {[
+                                                    city === dest.startingCity ? `From ${city}` : null,
+                                                    duration === dest.duration ? dest.duration : null,
+                                                    budget === dest.budgetRange ? dest.budgetRange : null,
+                                                    ...Array.from(moods).filter((mood) =>
+                                                        dest.moodTags.includes(mood)
+                                                    ),
+                                                ]
+                                                    .filter(Boolean)
+                                                    .join(" · ")}
+                                            </p>
+                                        )}
+
+                                        {/* Mood tags */}
+                                        {dest.moodTags.length > 0 && (
+                                            <div className="mt-4 flex flex-wrap gap-1.5">
+                                                {dest.moodTags.slice(0, 3).map((tag) => (
+                                                    <span
+                                                        key={tag}
+                                                        className={`text-[11px] px-3 py-1 rounded-sm font-medium transition-colors ${moods.has(tag)
+                                                            ? "bg-[#4A5D4E]/10 text-[#4A5D4E]"
+                                                            : "bg-secondary text-secondary-foreground"
+                                                            }`}
+                                                    >
+                                                        {tag}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </Link>
+
+
+                                    <button
+                                        type="button"
+                                        onClick={() => toggleSavedTrip(dest.slug)}
+                                        disabled={!savedTripsLoaded}
+                                        aria-pressed={savedTrips.includes(dest.slug)}
+                                        className="mt-4 self-start text-xs tracking-wide border border-border rounded-full px-4 py-2 hover:border-foreground transition-colors disabled:opacity-50"
+                                    >
+                                        {savedTrips.includes(dest.slug) ? "♥ Saved" : "♡ Save this trip"}
+                                    </button>
+
+                                </div>
                             ))}
                         </div>
                     )}

@@ -8,45 +8,53 @@ const DESTINATION_IMAGES: Record<string, string> = {
   "br-hills-wildlife": "/images/destinations/br-hills.jpg",
 };
 
-const TRAIL_IMAGES: Record<string, string> = {
-  "kumara-parvatha-trek": "/images/trails/kumara-parvatha.jpg",
-  "skandagiri-night-trek": "/images/trails/skandagiri.jpg",
-  "tadiandamol-peak": "/images/trails/tadiandamol.jpg",
-  "savandurga-day-trek": "/images/trails/savandurga.jpg",
-};
+const TRAIL_IMAGES = [
+  "/images/trails/kumara-parvatha.jpg",
+  "/images/trails/skandagiri.jpg",
+  "/images/trails/tadiandamol.jpg",
+];
+
+
 
 const MOODS = [
   {
     title: "Sunrise",
     description: "Start early. Find somewhere worth the morning.",
     tag: "EARLY STARTS",
+    mood: "Photography",
   },
   {
     title: "Quiet Nature",
     description: "Slow down somewhere surrounded by green.",
     tag: "SLOW ESCAPES",
+    mood: "Peaceful",
   },
   {
     title: "A Proper Trek",
     description: "For weekends that deserve a little effort.",
     tag: "TRAILS",
+    mood: "Adventurous",
   },
   {
     title: "Photography",
     description: "Scenic places made for chasing the right frame.",
     tag: "SCENIC SPOTS",
+    mood: "Photography",
   },
   {
     title: "Scenic Drive",
     description: "Take the long way. It might be the best part.",
     tag: "ROAD TRIPS",
+    mood: "Scenic drive",
   },
   {
     title: "Waterfalls & Monsoon",
     description: "Follow the rain to places that come alive.",
     tag: "MONSOON",
+    mood: "Offbeat",
   },
 ];
+
 
 const AVARA_PICKS = [
   {
@@ -54,18 +62,21 @@ const AVARA_PICKS = [
     title: "Tadiandamol",
     description: "For when you want a proper mountain weekend.",
     category: "MOUNTAINS",
+    href: "/trails/tadiandamol-peak",
   },
   {
     number: "02",
     title: "Nandi Hills",
     description: "For an early morning that is actually worth waking up for.",
     category: "SUNRISE",
+    href: "/destinations/nandi-hills-sunrise",
   },
   {
     number: "03",
     title: "BR Hills",
     description: "For getting away from the noise.",
     category: "QUIET ESCAPES",
+    href: "/destinations/br-hills-wildlife",
   },
 ];
 export default function HomePage() {
@@ -105,7 +116,7 @@ export default function HomePage() {
                 Plan a Weekend
               </Link>
               <Link
-                href="/destinations"
+                href="/explore"
                 className="inline-flex h-14 items-center justify-center rounded-sm border border-border bg-transparent px-8 text-sm font-medium tracking-wide text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
               >
                 Explore Escapes
@@ -116,7 +127,7 @@ export default function HomePage() {
 
         {/* Image Content */}
         <div className="w-full lg:w-1/2 h-[60vh] lg:h-auto relative lg:min-h-[calc(100vh-4rem)] bg-muted">
-          {/* Temporary placeholder image for the Western Ghats/Nature vibe */}
+
           <img
             src="/images/hero/avara-hero.jpg"
             alt="Scenic mist-covered mountains"
@@ -214,7 +225,7 @@ export default function HomePage() {
 
           {/* Editorial Grid - Aligned heights */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-14">
-            {featuredTrails.map((trail) => (
+            {featuredTrails.map((trail, index) => (
               <Link
                 key={trail.slug}
                 href={`/trails/${trail.slug}`}
@@ -223,7 +234,7 @@ export default function HomePage() {
                 {/* Image Container */}
                 <div className="relative w-full aspect-[3/2] overflow-hidden rounded-sm mb-6 md:mb-8 bg-muted">
                   <img
-                    src={TRAIL_IMAGES[trail.slug]}
+                    src={TRAIL_IMAGES[index] || "https://picsum.photos/id/1018/800/600"}
                     alt={trail.name}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
                   />
@@ -275,7 +286,7 @@ export default function HomePage() {
             {MOODS.map((mood) => (
               <Link
                 key={mood.title}
-                href="/explore"
+                href={`/explore?mood=${encodeURIComponent(mood.mood)}`}
                 className="group bg-[#f3f1eb] p-8 md:p-10 min-h-[220px] flex flex-col justify-between transition-colors duration-500 hover:bg-white"
               >
                 <div>
@@ -330,7 +341,7 @@ export default function HomePage() {
             {AVARA_PICKS.map((pick) => (
               <Link
                 key={pick.number}
-                href="/explore"
+                href={pick.href}
                 className="group grid grid-cols-[48px_1fr_auto] md:grid-cols-[80px_1fr_220px_auto] gap-4 md:gap-8 items-center py-8 md:py-10 border-b border-border"
               >
                 <span className="text-xs text-muted-foreground">
@@ -429,7 +440,7 @@ export default function HomePage() {
                 </Link>
 
                 <a
-                  href="mailto:hello@avara.travel"
+                  href="mailto:hello.avara.travel@gmail.com"
                   className="hover:text-muted-foreground transition-colors"
                 >
                   Contact

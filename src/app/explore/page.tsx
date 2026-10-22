@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { mockDestinations } from "@/data/mock-destinations";
 import type { ExperienceType, MoodTag } from "@/types";
@@ -40,6 +40,27 @@ export default function ExplorePage() {
     const [activeCategory, setActiveCategory] = useState<ExperienceType | null>(null);
     const [activeMood, setActiveMood] = useState<MoodTag | null>(null);
 
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const mood = params.get("mood");
+        const category = params.get("category");
+
+        if (mood && ALL_MOOD_TAGS.includes(mood as MoodTag)) {
+            setActiveMood(mood as MoodTag);
+        } else {
+            setActiveMood(null);
+        }
+
+        if (
+            category &&
+            ALL_EXPERIENCE_TAGS.includes(category as ExperienceType)
+        ) {
+            setActiveCategory(category as ExperienceType);
+        } else {
+            setActiveCategory(null);
+        }
+    }, []);
+
     const filteredDestinations = useMemo(() => {
         return mockDestinations.filter((d) => {
             const categoryMatch = activeCategory === null || d.experienceTags.includes(activeCategory);
@@ -53,6 +74,8 @@ export default function ExplorePage() {
     function resetFilters() {
         setActiveCategory(null);
         setActiveMood(null);
+
+        window.history.replaceState(null, "", "/explore");
     }
 
     return (
@@ -102,8 +125,8 @@ export default function ExplorePage() {
                                 <button
                                     onClick={resetFilters}
                                     className={`px-4 py-1.5 rounded-full text-xs tracking-wide border transition-colors ${!isFiltered
-                                            ? "bg-foreground text-background border-foreground"
-                                            : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
+                                        ? "bg-foreground text-background border-foreground"
+                                        : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
                                         }`}
                                 >
                                     All destinations
@@ -111,12 +134,28 @@ export default function ExplorePage() {
                                 {ALL_EXPERIENCE_TAGS.map((tag) => (
                                     <button
                                         key={tag}
-                                        onClick={() =>
-                                            setActiveCategory(activeCategory === tag ? null : tag)
-                                        }
+                                        onClick={() => {
+                                            const nextCategory = activeCategory === tag ? null : tag;
+                                            setActiveCategory(nextCategory);
+
+                                            const params = new URLSearchParams(window.location.search);
+
+                                            if (nextCategory) {
+                                                params.set("category", nextCategory);
+                                            } else {
+                                                params.delete("category");
+                                            }
+
+                                            const query = params.toString();
+                                            window.history.replaceState(
+                                                null,
+                                                "",
+                                                query ? `/explore?${query}` : "/explore"
+                                            );
+                                        }}
                                         className={`px-4 py-1.5 rounded-full text-xs tracking-wide border transition-colors ${activeCategory === tag
-                                                ? "bg-foreground text-background border-foreground"
-                                                : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
+                                            ? "bg-foreground text-background border-foreground"
+                                            : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
                                             }`}
                                     >
                                         {tag}
@@ -134,12 +173,19 @@ export default function ExplorePage() {
                                 {ALL_MOOD_TAGS.map((tag) => (
                                     <button
                                         key={tag}
-                                        onClick={() =>
-                                            setActiveMood(activeMood === tag ? null : tag)
-                                        }
+                                        onClick={() => {
+                                            const nextMood = activeMood === tag ? null : tag;
+                                            setActiveMood(nextMood);
+
+                                            const url = nextMood
+                                                ? `/explore?mood=${encodeURIComponent(nextMood)}`
+                                                : "/explore";
+
+                                            window.history.replaceState(null, "", url);
+                                        }}
                                         className={`px-4 py-1.5 rounded-full text-xs tracking-wide border transition-colors ${activeMood === tag
-                                                ? "bg-foreground text-background border-foreground"
-                                                : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
+                                            ? "bg-foreground text-background border-foreground"
+                                            : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
                                             }`}
                                     >
                                         {tag}
@@ -149,6 +195,15 @@ export default function ExplorePage() {
                         </div>
 
                     </div>
+                    {(activeMood !== null || activeCategory !== null) && (
+                        <button
+                            type="button"
+                            onClick={resetFilters}
+                            className="mt-4 text-sm font-medium text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"
+                        >
+                            Clear filters
+                        </button>
+                    )}
                     {/* ── End Filters ─────────────────────────────────────────── */}
 
                     {filteredDestinations.length === 0 ? (

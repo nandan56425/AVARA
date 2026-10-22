@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { Mountain } from "lucide-react";
 
+
 const navigation = [
-  { name: "Destinations", href: "/destinations" },
+  { name: "Destinations", href: "/explore" },
   { name: "Trails", href: "/trails" },
-  { name: "About", href: "/about" },
+  { name: "Saved Trips", href: "/saved-trips" }
 ] as const;
+
 
 export function SiteHeader() {
   return (
