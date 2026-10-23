@@ -232,6 +232,51 @@ const INITIAL_FORM: FormState = {
     travelDate: "",
 };
 
+// ─── Travel Feasibility & Safety Helpers ─────────────────────────────────────
+
+interface EarlyStartStop {
+    day: number;
+    time: string;
+    title: string;
+}
+
+function getEarlyStartStops(item: Destination | Trail): EarlyStartStop[] {
+    const earlyStops: EarlyStartStop[] = [];
+    for (const day of item.itinerary) {
+        for (const stop of day.stops) {
+            const parts = stop.time.split(":");
+            if (parts.length >= 2) {
+                const hour = parseInt(parts[0], 10);
+                const minute = parseInt(parts[1], 10);
+                if (!isNaN(hour) && !isNaN(minute)) {
+                    if (hour < 5 || (hour === 5 && minute === 0)) {
+                        earlyStops.push({
+                            day: day.day,
+                            time: stop.time,
+                            title: stop.title,
+                        });
+                    }
+                }
+            }
+        }
+    }
+    return earlyStops;
+}
+
+function getPermitAndAccessNotes(
+    item: Destination | Trail,
+    kind: CandidateKind
+): string[] {
+    const rawNotes =
+        kind === "destination"
+            ? (item as Destination).importantNotes ?? []
+            : (item as Trail).safetyNotes ?? [];
+
+    const keywords =
+        /permit|booking|portal|access|registration|forest|checkpoint|permission|rules|regulations|capacity|authority|authorities|weather|monsoon|foggy|guidance/i;
+    return rawNotes.filter((note) => keywords.test(note));
+}
+
 // ─── Seasonal Guidance Helper ───────────────────────────────────────────────
 
 function getSeasonalGuidance(
@@ -1218,6 +1263,18 @@ export default function ItineraryPlannerPage() {
                                     const isSelected =
                                         candidate.item.slug === activeCandidateSlug;
                                     const isPrimary = candidate.isPrimaryMatch;
+                                    const isTrail = candidate.kind === "trail";
+                                    const earlyStops = getEarlyStartStops(candidate.item);
+                                    const permitNotes = getPermitAndAccessNotes(
+                                        candidate.item,
+                                        candidate.kind
+                                    );
+                                    const verificationLabel =
+                                        candidate.item.verificationStatus === "verified"
+                                            ? "Verified"
+                                            : candidate.item.verificationStatus === "partially-verified"
+                                            ? "Partially verified"
+                                            : "Unverified";
 
                                     return (
                                         <button
@@ -1230,20 +1287,38 @@ export default function ItineraryPlannerPage() {
                                                 : "border-border bg-card/60 hover:border-foreground/40 hover:bg-card"
                                                 }`}
                                         >
-                                            <div className="flex items-center justify-between gap-2 mb-2">
-                                                <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                                                    {candidate.kind === "destination"
-                                                        ? "Destination"
-                                                        : "Trail"}
-                                                </span>
-                                                <span
-                                                    className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${isPrimary
-                                                        ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300"
-                                                        : "bg-amber-100 text-amber-900 dark:bg-amber-950/60 dark:text-amber-300"
+                                            <div className="flex flex-wrap items-center justify-between gap-1.5 mb-2">
+                                                <div className="flex items-center gap-1.5 flex-wrap">
+                                                    <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                                                        {isTrail ? "Trail" : "Destination"}
+                                                    </span>
+                                                    {isTrail && (
+                                                        <span className="text-[10px] font-medium px-2 py-0.5 rounded-full border border-border bg-muted/70 text-foreground">
+                                                            Difficulty: {(candidate.item as Trail).difficulty}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <div className="flex items-center gap-1.5 flex-wrap">
+                                                    <span
+                                                        className={`text-[10px] font-medium px-2 py-0.5 rounded-full border ${
+                                                            candidate.item.verificationStatus === "verified"
+                                                                ? "bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800"
+                                                                : candidate.item.verificationStatus === "partially-verified"
+                                                                ? "bg-amber-50 text-amber-800 border-amber-200 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-800"
+                                                                : "bg-stone-50 text-stone-700 border-stone-200 dark:bg-stone-900/60 dark:text-stone-300 dark:border-stone-800"
                                                         }`}
-                                                >
-                                                    {isPrimary ? "Exact Match" : "Alternative"}
-                                                </span>
+                                                    >
+                                                        Status: {verificationLabel}
+                                                    </span>
+                                                    <span
+                                                        className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${isPrimary
+                                                            ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300"
+                                                            : "bg-amber-100 text-amber-900 dark:bg-amber-950/60 dark:text-amber-300"
+                                                            }`}
+                                                    >
+                                                        {isPrimary ? "Exact Match" : "Alternative"}
+                                                    </span>
+                                                </div>
                                             </div>
 
                                             <h3 className="font-serif text-lg font-medium tracking-tight mb-1">
@@ -1258,6 +1333,28 @@ export default function ItineraryPlannerPage() {
                                                 <span>{candidate.item.duration}</span>
                                                 <span>{candidate.item.budgetRange}</span>
                                             </div>
+
+                                            {/* Feasibility Notes: Early start & Permits */}
+                                            {(earlyStops.length > 0 || permitNotes.length > 0) && (
+                                                <div className="mt-2 space-y-1">
+                                                    {earlyStops.length > 0 && (
+                                                        <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground bg-muted/30 px-2 py-1 rounded-xs">
+                                                            <Clock className="h-3 w-3 text-muted-foreground shrink-0" />
+                                                            <span className="truncate">
+                                                                <strong className="text-foreground">Early start:</strong> {earlyStops[0].time} ({earlyStops[0].title})
+                                                            </span>
+                                                        </div>
+                                                    )}
+                                                    {permitNotes.length > 0 && (
+                                                        <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground bg-muted/30 px-2 py-1 rounded-xs">
+                                                            <ShieldAlert className="h-3 w-3 text-amber-700 shrink-0" />
+                                                            <span className="truncate">
+                                                                <strong className="text-foreground">Advisory:</strong> {permitNotes[0]}
+                                                            </span>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
 
                                             {/* Concise "Why this matches" section */}
                                             <div className="mt-3 pt-2.5 border-t border-border/80 space-y-1.5 text-[11px] leading-relaxed">
@@ -1297,19 +1394,19 @@ export default function ItineraryPlannerPage() {
                                                         ✓ Exact match for {matchingResult.searchState.duration} &amp; {matchingResult.searchState.budget}
                                                     </div>
                                                 ) : (
-                                                    <div className="text-[10px] text-amber-900 dark:text-amber-200 bg-amber-50 dark:bg-amber-950/50 p-2 rounded-xs space-y-1 border border-amber-200 dark:border-amber-900/50">
-                                                        <span className="font-semibold block uppercase tracking-wider text-[9px] text-amber-800 dark:text-amber-300">
+                                                    <div className="text-[10px] text-amber-950 dark:text-amber-100 bg-amber-50 dark:bg-amber-950/60 p-2.5 rounded-xs space-y-1.5 border border-amber-300 dark:border-amber-800">
+                                                        <span className="font-bold block uppercase tracking-wider text-[9px] text-amber-950 dark:text-amber-200">
                                                             Alternative &middot; Specific Mismatches:
                                                         </span>
                                                         {candidate.alternativeReasons.map((reason, rIdx) => (
-                                                            <div key={rIdx} className="flex items-start gap-1">
-                                                                <span className="text-amber-600 dark:text-amber-400">•</span>
+                                                            <div key={rIdx} className="flex items-start gap-1.5 text-amber-950 dark:text-amber-100">
+                                                                <span className="text-amber-800 dark:text-amber-400 font-bold">•</span>
                                                                 <span>{reason}</span>
                                                             </div>
                                                         ))}
                                                         {!candidate.paceMatched && (
-                                                            <div className="flex items-start gap-1">
-                                                                <span className="text-amber-600 dark:text-amber-400">•</span>
+                                                            <div className="flex items-start gap-1.5 text-amber-950 dark:text-amber-100">
+                                                                <span className="text-amber-800 dark:text-amber-400 font-bold">•</span>
                                                                 <span>Pacing differs: {candidate.paceReason}</span>
                                                             </div>
                                                         )}
@@ -1323,8 +1420,55 @@ export default function ItineraryPlannerPage() {
                         </div>
 
                         {/* ── Detailed Selected Itinerary Display ──────────────────── */}
-                        {displayedCandidate && (
+                        {displayedCandidate && (() => {
+                            const displayedEarlyStops = getEarlyStartStops(displayedCandidate.item);
+                            const displayedPermitNotes = getPermitAndAccessNotes(
+                                displayedCandidate.item,
+                                displayedCandidate.kind
+                            );
+
+                            return (
                             <div className="rounded-lg border border-border bg-card shadow-xs overflow-hidden">
+                                {/* Top Verification Status Banner */}
+                                <div className="border-b border-border bg-card/90 px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                                    <div className="flex items-center gap-2">
+                                        <span className="font-semibold uppercase tracking-wider text-[10px] text-muted-foreground">
+                                            Verification Status:
+                                        </span>
+                                        <span
+                                            className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium border ${
+                                                displayedCandidate.item.verificationStatus === "verified"
+                                                    ? "bg-emerald-100 text-emerald-800 border-emerald-300 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800"
+                                                    : displayedCandidate.item.verificationStatus === "partially-verified"
+                                                    ? "bg-amber-100 text-amber-900 border-amber-300 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-800"
+                                                    : "bg-stone-100 text-stone-800 border-stone-300 dark:bg-stone-800 dark:text-stone-300 dark:border-stone-700"
+                                            }`}
+                                        >
+                                            <span
+                                                className={`h-1.5 w-1.5 rounded-full ${
+                                                    displayedCandidate.item.verificationStatus === "verified"
+                                                        ? "bg-emerald-600 dark:bg-emerald-400"
+                                                        : displayedCandidate.item.verificationStatus === "partially-verified"
+                                                        ? "bg-amber-600 dark:bg-amber-400"
+                                                        : "bg-stone-500"
+                                                }`}
+                                            />
+                                            {displayedCandidate.item.verificationStatus === "verified"
+                                                ? "Verified"
+                                                : displayedCandidate.item.verificationStatus === "partially-verified"
+                                                ? "Partially verified"
+                                                : "Unverified"}
+                                        </span>
+                                    </div>
+                                    <p className="text-[11px] text-muted-foreground leading-relaxed max-w-xl">
+                                        {displayedCandidate.item.verificationStatus === "verified"
+                                            ? "Verified route details from Avara catalog records. Always verify current weather and road conditions before travelling."
+                                            : displayedCandidate.item.verificationStatus === "partially-verified"
+                                            ? "Partially verified record. Specific routes, timings, costs, or permissions should be confirmed directly with local authorities before travelling."
+                                            : "Unverified record. Field details, opening hours, road conditions, and costs must be confirmed directly before travelling."}
+                                    </p>
+                                </div>
+
                                 {/* Hero Image & Title Banner */}
                                 <div className="relative aspect-[16/9] sm:aspect-[21/9] max-h-[420px] w-full bg-muted overflow-hidden">
                                     <img
@@ -1340,6 +1484,12 @@ export default function ItineraryPlannerPage() {
                                                     ? "Curated Escape"
                                                     : "Verified Trail"}
                                             </span>
+                                            {displayedCandidate.kind === "trail" && (
+                                                <>
+                                                    <span>&middot;</span>
+                                                    <span>{(displayedCandidate.item as Trail).difficulty} Difficulty</span>
+                                                </>
+                                            )}
                                             <span>&middot;</span>
                                             <span>From {displayedCandidate.item.startingCity}</span>
                                             <span>&middot;</span>
@@ -1356,7 +1506,18 @@ export default function ItineraryPlannerPage() {
 
                                 <div className="p-6 md:p-10 space-y-10">
                                     {/* Parameter Metadata Strip */}
-                                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 border-b border-border pb-8 text-xs">
+                                    <div className={`grid grid-cols-2 ${displayedCandidate.kind === "trail" ? "sm:grid-cols-5" : "sm:grid-cols-4"} gap-4 border-b border-border pb-8 text-xs`}>
+                                        {displayedCandidate.kind === "trail" && (
+                                            <div>
+                                                <span className="text-[10px] uppercase tracking-wider text-muted-foreground block mb-1">
+                                                    Trail Difficulty
+                                                </span>
+                                                <span className="font-medium text-foreground text-sm">
+                                                    {(displayedCandidate.item as Trail).difficulty}
+                                                </span>
+                                            </div>
+                                        )}
+
                                         <div>
                                             <span className="text-[10px] uppercase tracking-wider text-muted-foreground block mb-1">
                                                 Duration
@@ -1408,6 +1569,59 @@ export default function ItineraryPlannerPage() {
                                         </div>
                                     </div>
 
+                                    {/* ── Travel Feasibility & Safety Notices ── */}
+                                    {(displayedEarlyStops.length > 0 || displayedPermitNotes.length > 0) && (
+                                        <div className="space-y-4">
+                                            {/* Early Start Notice */}
+                                            {displayedEarlyStops.length > 0 && (
+                                                <div className="rounded-md border border-border bg-card p-5 space-y-2.5 text-xs">
+                                                    <div className="flex items-center gap-2 font-semibold text-foreground text-xs uppercase tracking-wide">
+                                                        <Clock className="h-4 w-4 text-[#4A5D4E] shrink-0" />
+                                                        <span>Early Start Advisory (Departures at or before 05:00)</span>
+                                                    </div>
+                                                    <p className="text-muted-foreground text-[11px] leading-relaxed">
+                                                        This itinerary includes departures or activities scheduled at or before 05:00 from existing stops. Ensure adequate rest and travel planning:
+                                                    </p>
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                                                        {displayedEarlyStops.map((stop, idx) => (
+                                                            <div
+                                                                key={idx}
+                                                                className="flex items-start gap-2 bg-muted/40 p-2.5 rounded-xs border border-border/60 text-[11px]"
+                                                            >
+                                                                <span className="font-mono font-medium text-foreground shrink-0">
+                                                                    {stop.time}
+                                                                </span>
+                                                                <span className="text-muted-foreground">
+                                                                    Day {stop.day}: <strong className="text-foreground">{stop.title}</strong>
+                                                                </span>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {/* Permits and Access Guidance */}
+                                            {displayedPermitNotes.length > 0 && (
+                                                <div className="rounded-md border border-amber-300 bg-amber-50 p-5 space-y-2.5 text-xs text-amber-950 dark:border-amber-800 dark:bg-amber-950/50 dark:text-amber-100">
+                                                    <div className="flex items-center gap-2 font-bold text-amber-950 dark:text-amber-100 uppercase tracking-wide text-xs">
+                                                        <ShieldAlert className="h-4 w-4 text-amber-800 dark:text-amber-400 shrink-0" />
+                                                        <span>Permits, Access &amp; Environmental Guidance</span>
+                                                    </div>
+                                                    <p className="text-[11px] text-amber-950 dark:text-amber-100 leading-relaxed font-normal">
+                                                        Surfaced from recorded catalog notes. Live access or booking availability is not checked in real-time. Verify current rules, registrations, and weather conditions with official authorities before travelling:
+                                                    </p>
+                                                    <ul className="list-disc list-inside space-y-1.5 text-[11px] font-medium text-amber-950 dark:text-amber-100 marker:text-amber-800 dark:marker:text-amber-400 pt-1">
+                                                        {displayedPermitNotes.map((note, idx) => (
+                                                            <li key={idx} className="leading-relaxed">
+                                                                {note}
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+
                                     {/* Match Breakdown Callout */}
                                     <div className="rounded-md border border-border bg-muted/30 p-5 space-y-4 text-xs leading-relaxed">
                                         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/80 pb-3">
@@ -1427,21 +1641,21 @@ export default function ItineraryPlannerPage() {
 
                                         {/* Explicit Constraint Mismatches for Alternatives */}
                                         {!displayedCandidate.isPrimaryMatch && (
-                                            <div className="rounded-md border border-amber-300/40 bg-amber-500/10 p-3.5 text-amber-900 dark:text-amber-200 space-y-1.5">
-                                                <div className="flex items-center gap-1.5 font-semibold text-xs text-amber-800 dark:text-amber-300">
-                                                    <AlertCircle className="h-4 w-4 shrink-0" />
+                                            <div className="rounded-md border border-amber-300 bg-amber-50 p-5 text-amber-950 dark:border-amber-800 dark:bg-amber-950/50 dark:text-amber-100 space-y-2.5">
+                                                <div className="flex items-center gap-2 font-bold text-xs text-amber-950 dark:text-amber-100">
+                                                    <AlertCircle className="h-4 w-4 shrink-0 text-amber-800 dark:text-amber-400" />
                                                     <span>Alternative Recommendation &middot; Constraint Mismatches</span>
                                                 </div>
-                                                <p className="text-[11px] leading-relaxed">
+                                                <p className="text-[11px] leading-relaxed text-amber-950 dark:text-amber-100">
                                                     This itinerary does not satisfy all your requested search filters. It is presented because it starts from your origin ({displayedCandidate.item.startingCity})
                                                     {displayedCandidate.matchedInterests.length > 0 && ` and matches your interest in ${displayedCandidate.matchedInterests.join(", ")}`}.
                                                 </p>
-                                                <ul className="list-disc list-inside text-[11px] space-y-0.5 font-medium text-amber-900 dark:text-amber-200 pt-1">
+                                                <ul className="list-disc list-inside text-[11px] space-y-1.5 font-medium text-amber-950 dark:text-amber-100 marker:text-amber-800 dark:marker:text-amber-400 pt-1">
                                                     {displayedCandidate.alternativeReasons.map((reason, idx) => (
-                                                        <li key={idx}>{reason}</li>
+                                                        <li key={idx} className="leading-relaxed">{reason}</li>
                                                     ))}
                                                     {!displayedCandidate.paceMatched && (
-                                                        <li>Pace preference mismatch: {displayedCandidate.paceReason}</li>
+                                                        <li className="leading-relaxed">Pace preference mismatch: {displayedCandidate.paceReason}</li>
                                                     )}
                                                 </ul>
                                             </div>
@@ -1730,7 +1944,8 @@ export default function ItineraryPlannerPage() {
                                     </div>
                                 </div>
                             </div>
-                        )}
+                            );
+                        })()}
                     </div>
                 </section>
             )}
