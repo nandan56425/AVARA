@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
     MapPin,
     Calendar,
@@ -17,6 +18,8 @@ import {
     ShieldAlert,
     ExternalLink,
     SlidersHorizontal,
+    Share2,
+    Copy,
 } from "lucide-react";
 
 import { mockDestinations } from "@/data/mock-destinations";
@@ -638,7 +641,231 @@ function runItineraryMatching(form: FormState): MatchingResult {
 
 // ─── Main Component ─────────────────────────────────────────────────────────
 
-export default function ItineraryPlannerPage() {
+// ─── Shared URL Parsing & Validation ─────────────────────────────────────────
+
+interface SharedUrlParseResult {
+    success: boolean;
+    error?: string;
+    form?: FormState;
+    matchingResult?: MatchingResult;
+    selectedSlug?: string;
+}
+
+function parseAndValidateSharedParams(
+    params: URLSearchParams
+): SharedUrlParseResult {
+    const rawCity = params.get("city");
+    const rawDuration = params.get("duration");
+    const rawBudget = params.get("budget");
+    const rawInterests = params.get("interests");
+    const rawPace = params.get("pace");
+    const rawDate = params.get("date");
+    const rawKind = params.get("kind");
+    const rawSlug = params.get("slug");
+
+    // 1. Validate startingCity
+    const validCities: StartingCity[] = ["Mysuru", "Bengaluru"];
+    if (!rawCity || !validCities.includes(rawCity as StartingCity)) {
+        return {
+            success: false,
+            error: "The shared link contains an invalid or missing starting city. Allowed values are 'Mysuru' or 'Bengaluru'.",
+        };
+    }
+    const startingCity = rawCity as StartingCity;
+
+    // 2. Validate duration
+    const validDurations: PlannerDuration[] = ["1 day", "2 days", "3 days"];
+    if (!rawDuration || !validDurations.includes(rawDuration as PlannerDuration)) {
+        return {
+            success: false,
+            error: "The shared link contains an invalid or missing trip duration. Allowed durations are '1 day', '2 days', or '3 days'.",
+        };
+    }
+    const duration = rawDuration as PlannerDuration;
+
+    // 3. Validate budget
+    const validBudgets: PlannerBudget[] = [
+        "Under ₹1,000",
+        "₹1,000–₹2,000",
+        "₹2,000–₹4,000",
+    ];
+    let normalizedBudget = rawBudget || "";
+    if (normalizedBudget === "₹1,000-₹2,000") normalizedBudget = "₹1,000–₹2,000";
+    if (normalizedBudget === "₹2,000-₹4,000") normalizedBudget = "₹2,000–₹4,000";
+    if (!validBudgets.includes(normalizedBudget as PlannerBudget)) {
+        return {
+            success: false,
+            error: "The shared link contains an invalid or missing budget bracket. Allowed brackets are 'Under ₹1,000', '₹1,000–₹2,000', or '₹2,000–₹4,000'.",
+        };
+    }
+    const budget = normalizedBudget as PlannerBudget;
+
+    // 4. Validate interests
+    const validInterests: TravelInterest[] = [
+        "Nature",
+        "Trekking",
+        "Waterfalls",
+        "Culture",
+        "Photography",
+        "Relaxation",
+    ];
+    if (!rawInterests) {
+        return {
+            success: false,
+            error: "The shared link does not specify any travel interests.",
+        };
+    }
+    const interestList = rawInterests
+        .split(",")
+        .map((i) => i.trim())
+        .filter(Boolean) as TravelInterest[];
+
+    if (interestList.length === 0) {
+        return {
+            success: false,
+            error: "The shared link contains an empty travel interests parameter.",
+        };
+    }
+
+    for (const interest of interestList) {
+        if (!validInterests.includes(interest)) {
+            return {
+                success: false,
+                error: `Unrecognized travel interest in shared link: '${interest}'. Valid options are Nature, Trekking, Waterfalls, Culture, Photography, Relaxation.`,
+            };
+        }
+    }
+
+    // 5. Validate pace
+    const validPaces: TravelPace[] = ["Relaxed", "Balanced", "Packed"];
+    if (!rawPace || !validPaces.includes(rawPace as TravelPace)) {
+        return {
+            success: false,
+            error: "The shared link contains an invalid or missing travel pace. Allowed values are 'Relaxed', 'Balanced', or 'Packed'.",
+        };
+    }
+    const pace = rawPace as TravelPace;
+
+    // 6. Validate travel date (optional)
+    let travelDate = "";
+    if (rawDate) {
+        const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+        if (!datePattern.test(rawDate)) {
+            return {
+                success: false,
+                error: `The travel date '${rawDate}' in the shared link is malformed. Expected format: YYYY-MM-DD.`,
+            };
+        }
+        const [yStr, mStr, dStr] = rawDate.split("-");
+        const y = parseInt(yStr, 10);
+        const m = parseInt(mStr, 10);
+        const d = parseInt(dStr, 10);
+        if (
+            isNaN(y) ||
+            isNaN(m) ||
+            isNaN(d) ||
+            y < 2000 ||
+            y > 2100 ||
+            m < 1 ||
+            m > 12 ||
+            d < 1 ||
+            d > 31
+        ) {
+            return {
+                success: false,
+                error: `The travel date '${rawDate}' is not a valid calendar date.`,
+            };
+        }
+        const testDate = new Date(Date.UTC(y, m - 1, d));
+        if (
+            testDate.getUTCFullYear() !== y ||
+            testDate.getUTCMonth() !== m - 1 ||
+            testDate.getUTCDate() !== d
+        ) {
+            return {
+                success: false,
+                error: `The travel date '${rawDate}' is not a valid calendar date.`,
+            };
+        }
+        travelDate = rawDate;
+    }
+
+    // 7. Validate candidate kind
+    if (rawKind !== "destination" && rawKind !== "trail") {
+        return {
+            success: false,
+            error: "The shared link does not specify a valid candidate kind ('destination' or 'trail').",
+        };
+    }
+    const kind = rawKind as CandidateKind;
+
+    // 8. Validate candidate slug
+    if (!rawSlug || typeof rawSlug !== "string" || rawSlug.trim().length === 0) {
+        return {
+            success: false,
+            error: "The shared link is missing an itinerary recommendation slug.",
+        };
+    }
+    const slug = rawSlug.trim();
+
+    if (kind === "destination") {
+        const destinationExists = mockDestinations.some((d) => d.slug === slug);
+        if (!destinationExists) {
+            return {
+                success: false,
+                error: `The destination '${slug}' was not found in the verified catalog.`,
+            };
+        }
+    } else {
+        const trailExists = mockTrails.some((t) => t.slug === slug);
+        if (!trailExists) {
+            return {
+                success: false,
+                error: `The trail '${slug}' was not found in the verified catalog.`,
+            };
+        }
+    }
+
+    // 9. Reconstruct form state & run matching
+    const form: FormState = {
+        startingCity,
+        duration,
+        budget,
+        interests: interestList,
+        pace,
+        travelDate,
+    };
+
+    const matchingResult = runItineraryMatching(form);
+    const allMatches = [
+        ...matchingResult.primaryMatches,
+        ...matchingResult.alternatives,
+    ];
+    const candidateMatch = allMatches.find(
+        (c) => c.item.slug === slug && c.kind === kind
+    );
+
+    if (!candidateMatch) {
+        return {
+            success: false,
+            error: `The requested itinerary '${slug}' is not available starting from ${startingCity}.`,
+        };
+    }
+
+    return {
+        success: true,
+        form,
+        matchingResult,
+        selectedSlug: slug,
+    };
+}
+
+// ─── Main Component Content ─────────────────────────────────────────────────
+
+function ItineraryPlannerContent() {
+    const searchParams = useSearchParams();
+    const hasParsedInitialParams = useRef(false);
+
     const [form, setForm] = useState<FormState>(INITIAL_FORM);
     const [errors, setErrors] = useState<FormErrors>({});
     const [matchingResult, setMatchingResult] = useState<MatchingResult | null>(
@@ -647,6 +874,48 @@ export default function ItineraryPlannerPage() {
     const [activeCandidateSlug, setActiveCandidateSlug] = useState<string | null>(
         null
     );
+
+    // Shared itinerary state
+    const [sharedUrlError, setSharedUrlError] = useState<string | null>(null);
+    const [shareModalOpen, setShareModalOpen] = useState(false);
+    const [shareUrl, setShareUrl] = useState("");
+    const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "failed">(
+        "idle"
+    );
+    const [copyFeedback, setCopyFeedback] = useState("");
+
+    // Initial restoration from shared URL
+    useEffect(() => {
+        if (hasParsedInitialParams.current) return;
+        hasParsedInitialParams.current = true;
+
+        if (!searchParams || searchParams.toString().length === 0) {
+            return;
+        }
+
+        const parseRes = parseAndValidateSharedParams(searchParams);
+        if (
+            parseRes.success &&
+            parseRes.form &&
+            parseRes.matchingResult &&
+            parseRes.selectedSlug
+        ) {
+            setForm(parseRes.form);
+            setMatchingResult(parseRes.matchingResult);
+            setActiveCandidateSlug(parseRes.selectedSlug);
+            setSharedUrlError(null);
+            setTimeout(() => {
+                const resultEl = document.getElementById("planner-results");
+                resultEl?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }, 120);
+        } else {
+            setSharedUrlError(
+                parseRes.error || "Unable to restore itinerary from shared link."
+            );
+            setMatchingResult(null);
+            setActiveCandidateSlug(null);
+        }
+    }, [searchParams]);
 
     function toggleInterest(interest: TravelInterest) {
         setForm((prev) => {
@@ -667,7 +936,96 @@ export default function ItineraryPlannerPage() {
         setErrors({});
         setMatchingResult(null);
         setActiveCandidateSlug(null);
+        setSharedUrlError(null);
+        setShareModalOpen(false);
+        setShareUrl("");
+        setCopyStatus("idle");
+        setCopyFeedback("");
+        if (typeof window !== "undefined") {
+            window.history.replaceState({}, "", window.location.pathname);
+        }
         window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function handleShareItinerary() {
+        if (!matchingResult || !displayedCandidate) return;
+        const search = matchingResult.searchState;
+
+        const params = new URLSearchParams();
+        if (search.startingCity) params.set("city", search.startingCity);
+        if (search.duration) params.set("duration", search.duration);
+        if (search.budget) params.set("budget", search.budget);
+        if (search.interests && search.interests.length > 0) {
+            params.set("interests", search.interests.join(","));
+        }
+        if (search.pace) params.set("pace", search.pace);
+        if (search.travelDate) params.set("date", search.travelDate);
+        params.set("kind", displayedCandidate.kind);
+        params.set("slug", displayedCandidate.item.slug);
+
+        const origin =
+            typeof window !== "undefined" && window.location.origin
+                ? window.location.origin
+                : "";
+        const pathname =
+            typeof window !== "undefined" && window.location.pathname
+                ? window.location.pathname
+                : "/itinerary-planner";
+
+        const generatedUrl = `${origin}${pathname}?${params.toString()}`;
+        setShareUrl(generatedUrl);
+        setShareModalOpen(true);
+
+        if (
+            typeof navigator !== "undefined" &&
+            navigator.clipboard &&
+            typeof navigator.clipboard.writeText === "function"
+        ) {
+            navigator.clipboard
+                .writeText(generatedUrl)
+                .then(() => {
+                    setCopyStatus("copied");
+                    setCopyFeedback("Share link copied to clipboard!");
+                })
+                .catch(() => {
+                    setCopyStatus("failed");
+                    setCopyFeedback(
+                        "Could not copy automatically. You can copy the link from the input box below:"
+                    );
+                });
+        } else {
+            setCopyStatus("failed");
+            setCopyFeedback(
+                "Clipboard API is unavailable. You can copy the link from the input box below:"
+            );
+        }
+    }
+
+    function handleCopyShareLink() {
+        if (!shareUrl) return;
+        if (
+            typeof navigator !== "undefined" &&
+            navigator.clipboard &&
+            typeof navigator.clipboard.writeText === "function"
+        ) {
+            navigator.clipboard
+                .writeText(shareUrl)
+                .then(() => {
+                    setCopyStatus("copied");
+                    setCopyFeedback("Share link copied to clipboard!");
+                })
+                .catch(() => {
+                    setCopyStatus("failed");
+                    setCopyFeedback(
+                        "Could not copy automatically. You can select and copy the text directly."
+                    );
+                });
+        } else {
+            setCopyStatus("failed");
+            setCopyFeedback(
+                "Clipboard API is unavailable. You can select and copy the text directly."
+            );
+        }
     }
 
     function validate(): boolean {
@@ -775,6 +1133,32 @@ export default function ItineraryPlannerPage() {
 
             {/* ── Form Section ─────────────────────────────────────────────────── */}
             <div id="planner-form" className="mx-auto max-w-4xl px-6 md:px-10 py-12 md:py-16">
+                {/* Error Banner for Malformed or Missing Shared URL */}
+                {sharedUrlError && (
+                    <div
+                        role="alert"
+                        className="mb-8 rounded-md border border-destructive/40 bg-destructive/10 p-6 space-y-3 text-destructive"
+                    >
+                        <div className="flex items-center gap-2.5 font-semibold text-sm">
+                            <AlertCircle className="h-5 w-5 shrink-0" />
+                            <span>Unable to load shared itinerary link</span>
+                        </div>
+                        <p className="text-xs leading-relaxed opacity-95">
+                            {sharedUrlError}
+                        </p>
+                        <div className="pt-2">
+                            <button
+                                type="button"
+                                onClick={handleReset}
+                                className="inline-flex items-center gap-2 rounded-sm bg-foreground px-4 py-2 text-xs font-medium text-background hover:bg-foreground/90 transition-colors cursor-pointer"
+                            >
+                                <RotateCcw className="h-3.5 w-3.5" />
+                                <span>Start a fresh itinerary plan</span>
+                            </button>
+                        </div>
+                    </div>
+                )}
+
                 <form onSubmit={handleSubmit} noValidate className="space-y-12">
                     {/* Error Banner */}
                     {Object.keys(errors).length > 0 && (
@@ -1505,6 +1889,97 @@ export default function ItineraryPlannerPage() {
                                 </div>
 
                                 <div className="p-6 md:p-10 space-y-10">
+                                    {/* Recommendation Header & Share Action */}
+                                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-border pb-6">
+                                        <div>
+                                            <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#4A5D4E] block mb-1">
+                                                {displayedCandidate.kind === "destination"
+                                                    ? "Curated Escape Recommendation"
+                                                    : "Verified Trail Recommendation"}
+                                            </span>
+                                            <h4 className="font-serif text-2xl sm:text-3xl font-medium tracking-tight text-foreground">
+                                                {displayedCandidate.item.name}
+                                            </h4>
+                                        </div>
+
+                                        <button
+                                            type="button"
+                                            id="share-itinerary-btn"
+                                            onClick={handleShareItinerary}
+                                            className="inline-flex h-10 items-center justify-center gap-2 rounded-sm bg-[#4A5D4E] px-4 text-xs font-medium tracking-wider text-white transition-colors hover:bg-[#3D4C40] cursor-pointer self-start sm:self-auto shrink-0 shadow-xs"
+                                        >
+                                            <Share2 className="h-3.5 w-3.5" aria-hidden="true" />
+                                            <span>Share itinerary</span>
+                                        </button>
+                                    </div>
+
+                                    {/* Share Link Panel / Feedback */}
+                                    {shareModalOpen && (
+                                        <div
+                                            role="region"
+                                            aria-label="Share Link Details"
+                                            className="rounded-md border border-border bg-card p-5 space-y-3 text-xs"
+                                        >
+                                            <div className="flex items-center justify-between">
+                                                <span className="font-semibold uppercase tracking-wider text-[11px] text-foreground flex items-center gap-1.5">
+                                                    <Share2 className="h-3.5 w-3.5 text-[#4A5D4E]" />
+                                                    Shareable Itinerary Link
+                                                </span>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setShareModalOpen(false)}
+                                                    className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 cursor-pointer"
+                                                >
+                                                    Close
+                                                </button>
+                                            </div>
+
+                                            {copyStatus === "copied" && (
+                                                <div className="flex items-center gap-2 text-xs font-medium text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 p-2.5 rounded-xs border border-emerald-200 dark:border-emerald-800">
+                                                    <Check className="h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400 stroke-[3]" />
+                                                    <span>{copyFeedback || "Share link copied to clipboard!"}</span>
+                                                </div>
+                                            )}
+
+                                            {copyStatus === "failed" && (
+                                                <div className="flex items-center gap-2 text-xs font-medium text-amber-900 dark:text-amber-200 bg-amber-50 dark:bg-amber-950/50 p-2.5 rounded-xs border border-amber-300 dark:border-amber-800">
+                                                    <Info className="h-4 w-4 shrink-0 text-amber-700 dark:text-amber-400" />
+                                                    <span>{copyFeedback || "Please copy the link below:"}</span>
+                                                </div>
+                                            )}
+
+                                            <div className="flex flex-col sm:flex-row items-stretch gap-2">
+                                                <input
+                                                    type="text"
+                                                    readOnly
+                                                    value={shareUrl}
+                                                    onFocus={(e) => e.target.select()}
+                                                    className="flex-1 rounded-sm border border-border bg-muted/40 px-3 py-2 text-xs font-mono text-foreground focus:outline-none focus:ring-1 focus:ring-foreground"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={handleCopyShareLink}
+                                                    className="inline-flex h-9 items-center justify-center gap-1.5 rounded-sm bg-foreground px-4 text-xs font-medium text-background hover:bg-foreground/90 transition-colors cursor-pointer shrink-0"
+                                                >
+                                                    {copyStatus === "copied" ? (
+                                                        <>
+                                                            <Check className="h-3.5 w-3.5 stroke-[3]" />
+                                                            <span>Copied</span>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <Copy className="h-3.5 w-3.5" />
+                                                            <span>Copy share link</span>
+                                                        </>
+                                                    )}
+                                                </button>
+                                            </div>
+                                            <p className="text-[11px] text-muted-foreground leading-relaxed">
+                                                This URL preserves your selected preferences and opens directly to this itinerary recommendation with all verification notes, feasibility alerts, and stops intact.
+                                            </p>
+                                        </div>
+                                    )}
+
                                     {/* Parameter Metadata Strip */}
                                     <div className={`grid grid-cols-2 ${displayedCandidate.kind === "trail" ? "sm:grid-cols-5" : "sm:grid-cols-4"} gap-4 border-b border-border pb-8 text-xs`}>
                                         {displayedCandidate.kind === "trail" && (
@@ -1982,5 +2457,24 @@ export default function ItineraryPlannerPage() {
                 </div>
             </footer>
         </div>
+    );
+}
+
+export default function ItineraryPlannerPage() {
+    return (
+        <Suspense
+            fallback={
+                <div className="min-h-screen bg-background text-foreground flex items-center justify-center p-8">
+                    <div className="text-center space-y-3">
+                        <div className="h-6 w-6 border-2 border-[#4A5D4E] border-t-transparent rounded-full animate-spin mx-auto" />
+                        <p className="text-xs uppercase tracking-wider text-muted-foreground">
+                            Loading Itinerary Studio...
+                        </p>
+                    </div>
+                </div>
+            }
+        >
+            <ItineraryPlannerContent />
+        </Suspense>
     );
 }
