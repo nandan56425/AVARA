@@ -1259,12 +1259,63 @@ export default function ItineraryPlannerPage() {
                                                 <span>{candidate.item.budgetRange}</span>
                                             </div>
 
-                                            {/* Reason why it's an alternative */}
-                                            {!isPrimary && candidate.alternativeReasons.length > 0 && (
-                                                <div className="mt-2 text-[11px] text-amber-800 dark:text-amber-300/90 bg-amber-50 dark:bg-amber-950/40 p-2 rounded-xs">
-                                                    {candidate.alternativeReasons.join(" ")}
+                                            {/* Concise "Why this matches" section */}
+                                            <div className="mt-3 pt-2.5 border-t border-border/80 space-y-1.5 text-[11px] leading-relaxed">
+                                                <div className="flex items-center justify-between">
+                                                    <span className="font-semibold uppercase tracking-wider text-[10px] text-muted-foreground flex items-center gap-1">
+                                                        <Sparkles className="h-3 w-3 text-[#4A5D4E]" />
+                                                        Why this matches
+                                                    </span>
+                                                    <span className="text-[10px] text-muted-foreground">
+                                                        From {candidate.item.startingCity}
+                                                    </span>
                                                 </div>
-                                            )}
+
+                                                <div className="text-muted-foreground">
+                                                    <span className="font-medium text-foreground">Interests: </span>
+                                                    {candidate.matchedInterests.length > 0 ? (
+                                                        <span className="text-foreground/90 font-medium">
+                                                            {candidate.matchedInterests.join(", ")}
+                                                        </span>
+                                                    ) : (
+                                                        <span className="italic text-muted-foreground">No selected interests supported</span>
+                                                    )}
+                                                </div>
+
+                                                <div className="text-muted-foreground">
+                                                    <span className="font-medium text-foreground">Pace: </span>
+                                                    {candidate.paceMatched ? (
+                                                        <span>Aligns with {matchingResult.searchState.pace}</span>
+                                                    ) : (
+                                                        <span className="text-amber-800 dark:text-amber-300/90">Differs from {matchingResult.searchState.pace}</span>
+                                                    )}
+                                                </div>
+
+                                                {/* Exact Match confirmation vs Alternative Mismatches */}
+                                                {isPrimary ? (
+                                                    <div className="text-[10px] text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-1 rounded-xs">
+                                                        ✓ Exact match for {matchingResult.searchState.duration} &amp; {matchingResult.searchState.budget}
+                                                    </div>
+                                                ) : (
+                                                    <div className="text-[10px] text-amber-900 dark:text-amber-200 bg-amber-50 dark:bg-amber-950/50 p-2 rounded-xs space-y-1 border border-amber-200 dark:border-amber-900/50">
+                                                        <span className="font-semibold block uppercase tracking-wider text-[9px] text-amber-800 dark:text-amber-300">
+                                                            Alternative &middot; Specific Mismatches:
+                                                        </span>
+                                                        {candidate.alternativeReasons.map((reason, rIdx) => (
+                                                            <div key={rIdx} className="flex items-start gap-1">
+                                                                <span className="text-amber-600 dark:text-amber-400">•</span>
+                                                                <span>{reason}</span>
+                                                            </div>
+                                                        ))}
+                                                        {!candidate.paceMatched && (
+                                                            <div className="flex items-start gap-1">
+                                                                <span className="text-amber-600 dark:text-amber-400">•</span>
+                                                                <span>Pacing differs: {candidate.paceReason}</span>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </div>
                                         </button>
                                     );
                                 })}
@@ -1358,26 +1409,137 @@ export default function ItineraryPlannerPage() {
                                     </div>
 
                                     {/* Match Breakdown Callout */}
-                                    <div className="rounded-md border border-border bg-muted/30 p-5 space-y-3 text-xs leading-relaxed">
-                                        <div className="flex items-center gap-2 font-medium text-foreground uppercase tracking-wide text-[11px]">
-                                            <Sparkles className="h-4 w-4 text-[#4A5D4E]" />
-                                            <span>Why this itinerary was selected for you</span>
+                                    <div className="rounded-md border border-border bg-muted/30 p-5 space-y-4 text-xs leading-relaxed">
+                                        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/80 pb-3">
+                                            <div className="flex items-center gap-2 font-medium text-foreground uppercase tracking-wide text-[11px]">
+                                                <Sparkles className="h-4 w-4 text-[#4A5D4E]" />
+                                                <span>Why this matches your preferences</span>
+                                            </div>
+                                            <span
+                                                className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${displayedCandidate.isPrimaryMatch
+                                                    ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300"
+                                                    : "bg-amber-100 text-amber-900 dark:bg-amber-950/60 dark:text-amber-300"
+                                                    }`}
+                                            >
+                                                {displayedCandidate.isPrimaryMatch ? "Exact Match" : "Alternative Option"}
+                                            </span>
                                         </div>
 
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-muted-foreground">
-                                            <div>
-                                                <strong className="text-foreground">
-                                                    Matched Interests:{" "}
-                                                </strong>
-                                                {displayedCandidate.matchedInterests.length > 0
-                                                    ? displayedCandidate.matchedInterests.join(", ")
-                                                    : "General scenic escape"}
+                                        {/* Explicit Constraint Mismatches for Alternatives */}
+                                        {!displayedCandidate.isPrimaryMatch && (
+                                            <div className="rounded-md border border-amber-300/40 bg-amber-500/10 p-3.5 text-amber-900 dark:text-amber-200 space-y-1.5">
+                                                <div className="flex items-center gap-1.5 font-semibold text-xs text-amber-800 dark:text-amber-300">
+                                                    <AlertCircle className="h-4 w-4 shrink-0" />
+                                                    <span>Alternative Recommendation &middot; Constraint Mismatches</span>
+                                                </div>
+                                                <p className="text-[11px] leading-relaxed">
+                                                    This itinerary does not satisfy all your requested search filters. It is presented because it starts from your origin ({displayedCandidate.item.startingCity})
+                                                    {displayedCandidate.matchedInterests.length > 0 && ` and matches your interest in ${displayedCandidate.matchedInterests.join(", ")}`}.
+                                                </p>
+                                                <ul className="list-disc list-inside text-[11px] space-y-0.5 font-medium text-amber-900 dark:text-amber-200 pt-1">
+                                                    {displayedCandidate.alternativeReasons.map((reason, idx) => (
+                                                        <li key={idx}>{reason}</li>
+                                                    ))}
+                                                    {!displayedCandidate.paceMatched && (
+                                                        <li>Pace preference mismatch: {displayedCandidate.paceReason}</li>
+                                                    )}
+                                                </ul>
                                             </div>
-                                            <div>
-                                                <strong className="text-foreground">
-                                                    Pacing Alignment:{" "}
-                                                </strong>
-                                                {displayedCandidate.paceReason}
+                                        )}
+
+                                        {/* 5-Criteria Breakdown Explaining the Match */}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            {/* 1. Starting City */}
+                                            <div className="space-y-1">
+                                                <span className="font-semibold text-foreground text-[11px] flex items-center gap-1.5">
+                                                    <MapPin className="h-3.5 w-3.5 text-muted-foreground" />
+                                                    Starting City
+                                                </span>
+                                                <p className="text-muted-foreground text-[11px]">
+                                                    Starts from <strong className="text-foreground">{displayedCandidate.item.startingCity}</strong> (direct match with your selected origin).
+                                                </p>
+                                            </div>
+
+                                            {/* 2. Duration */}
+                                            <div className="space-y-1">
+                                                <span className="font-semibold text-foreground text-[11px] flex items-center gap-1.5">
+                                                    <Clock className="h-3.5 w-3.5 text-muted-foreground" />
+                                                    Duration ({displayedCandidate.item.duration})
+                                                </span>
+                                                <p className="text-muted-foreground text-[11px]">
+                                                    {displayedCandidate.durationMatch === "exact" && (
+                                                        <>Matches your requested <strong className="text-foreground">{matchingResult.searchState.duration}</strong> trip timeframe exactly.</>
+                                                    )}
+                                                    {displayedCandidate.durationMatch === "half-day-for-1-day" && (
+                                                        <>Recorded as Half day; fits comfortably within your requested <strong className="text-foreground">1 day</strong> timeframe.</>
+                                                    )}
+                                                    {displayedCandidate.durationMatch === "2-day-fallback-for-3-day" && (
+                                                        <>Verified 2-day circuit serving your requested <strong className="text-foreground">3 days</strong> (Day 3 designated as free leisure time).</>
+                                                    )}
+                                                    {displayedCandidate.durationMatch === "mismatch" && (
+                                                        <span className="text-amber-800 dark:text-amber-300 font-medium">
+                                                            Duration mismatch: Recorded as {displayedCandidate.item.duration} (you requested {matchingResult.searchState.duration}).
+                                                        </span>
+                                                    )}
+                                                </p>
+                                            </div>
+
+                                            {/* 3. Budget */}
+                                            <div className="space-y-1">
+                                                <span className="font-semibold text-foreground text-[11px] flex items-center gap-1.5">
+                                                    <span className="font-mono text-xs text-muted-foreground">₹</span>
+                                                    Budget ({displayedCandidate.item.budgetRange})
+                                                </span>
+                                                <p className="text-muted-foreground text-[11px]">
+                                                    {displayedCandidate.budgetMatch === "exact" ? (
+                                                        <>Estimated at <strong className="text-foreground">{displayedCandidate.item.budgetRange}</strong> per person, matching your requested budget ({matchingResult.searchState.budget}).</>
+                                                    ) : (
+                                                        <span className="text-amber-800 dark:text-amber-300 font-medium">
+                                                            Budget mismatch: Estimated at {displayedCandidate.item.budgetRange} per person ({displayedCandidate.budgetMatch === "higher" ? "exceeds" : "below"} your requested {matchingResult.searchState.budget}).
+                                                        </span>
+                                                    )}
+                                                </p>
+                                            </div>
+
+                                            {/* 4. Pace */}
+                                            <div className="space-y-1">
+                                                <span className="font-semibold text-foreground text-[11px] flex items-center gap-1.5">
+                                                    <Compass className="h-3.5 w-3.5 text-muted-foreground" />
+                                                    Pace ({matchingResult.searchState.pace})
+                                                </span>
+                                                <p className="text-muted-foreground text-[11px]">
+                                                    {displayedCandidate.paceMatched ? (
+                                                        <>Aligns with your <strong className="text-foreground">{matchingResult.searchState.pace}</strong> preference: {displayedCandidate.paceReason}</>
+                                                    ) : (
+                                                        <span className="text-amber-800 dark:text-amber-300">
+                                                            Differs from {matchingResult.searchState.pace} pace preference: {displayedCandidate.paceReason}
+                                                        </span>
+                                                    )}
+                                                </p>
+                                            </div>
+
+                                            {/* 5. Interests */}
+                                            <div className="space-y-1 md:col-span-2">
+                                                <span className="font-semibold text-foreground text-[11px] flex items-center gap-1.5">
+                                                    <Mountain className="h-3.5 w-3.5 text-muted-foreground" />
+                                                    Interests Support
+                                                </span>
+                                                <div className="text-muted-foreground text-[11px] space-y-1">
+                                                    {displayedCandidate.matchedInterests.length > 0 ? (
+                                                        <p>
+                                                            Verified catalog data supports: <strong className="text-foreground">{displayedCandidate.matchedInterests.join(", ")}</strong>.
+                                                            {matchingResult.searchState.interests.filter((i) => !displayedCandidate.matchedInterests.includes(i)).length > 0 && (
+                                                                <span className="text-muted-foreground/80 block mt-0.5">
+                                                                    (Selected interests not supported in this route&apos;s data: {matchingResult.searchState.interests.filter((i) => !displayedCandidate.matchedInterests.includes(i)).join(", ")})
+                                                                </span>
+                                                            )}
+                                                        </p>
+                                                    ) : (
+                                                        <p className="text-amber-800 dark:text-amber-300">
+                                                            None of your selected interests ({matchingResult.searchState.interests.join(", ")}) are supported by this candidate&apos;s verified data.
+                                                        </p>
+                                                    )}
+                                                </div>
                                             </div>
                                         </div>
 
