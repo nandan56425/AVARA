@@ -676,44 +676,98 @@ export const mockDestinations: Destination[] = [
     ],
     recommendation:
       "Ideal for a relaxed cultural day trip from Mysuru. Choose a few nearby heritage stops instead of rushing through every monument.",
+
     itinerary: [
       {
         day: 1,
-        title: "Srirangapatna heritage day",
+        title: "Srirangapatna Heritage and River Escape",
         stops: [
           {
-            time: "09:00",
+            time: "7:00 AM",
             title: "Travel from Mysuru",
-            description: "Travel to Srirangapatna and allow for traffic.",
-            duration: "Allow time for the journey",
+            description:
+              "Start early and travel toward Srirangapatna. Allow extra time for weekend traffic and parking near the first stop.",
+            duration: "30–45 minutes, depending on your starting point",
+            type: "travel",
+            tip: "Check the temple's current opening hours before leaving.",
+          },
+          {
+            time: "7:30 AM",
+            title: "Sri Ranganathaswamy Temple",
+            description:
+              "Visit the historic temple dedicated to Lord Ranganatha. Allow time for darshan, the temple surroundings, and observing the traditional architecture.",
+            duration: "45–60 minutes",
+            type: "activity",
+            tip: "Dress respectfully and follow temple photography rules.",
+          },
+          {
+            time: "8:45 AM",
+            title: "Explore the historic fort area",
+            description:
+              "Walk through accessible parts of the historic town and learn about its connection to Tipu Sultan and the Anglo-Mysore period. Only enter areas open to visitors.",
+            duration: "45–60 minutes",
+            type: "highlight",
+            tip: "Wear comfortable walking shoes and carry drinking water.",
+          },
+          {
+            time: "10:00 AM",
+            title: "Daria Daulat Bagh",
+            description:
+              "Explore Tipu Sultan's summer palace and its historic artwork and displays, subject to current opening arrangements.",
+            duration: "45–60 minutes",
+            type: "activity",
+            tip: "Check opening hours and photography restrictions before visiting.",
+          },
+          {
+            time: "11:15 AM",
+            title: "Gumbaz mausoleum",
+            description:
+              "Visit the historic mausoleum associated with Hyder Ali, Tipu Sultan, and Tipu Sultan's family. Take time to appreciate the architecture respectfully.",
+            duration: "30–45 minutes",
+            type: "highlight",
+            tip: "Respect the site's religious and cultural significance.",
+          },
+          {
+            time: "12:15 PM",
+            title: "Lunch break",
+            description:
+              "Stop at a local eatery for lunch and take a break before the afternoon's nature visit.",
+            duration: "45–60 minutes",
+            type: "food",
+            tip: "Carry water and check meal options before travelling onward.",
+          },
+          {
+            time: "1:30 PM",
+            title: "Travel to Ranganathittu",
+            description:
+              "Drive toward Ranganathittu Bird Sanctuary. Allow time for the journey, parking, ticketing, and any queues.",
+            duration: "Allow 30–45 minutes or more if needed",
             type: "travel",
           },
           {
-            time: "10:00",
-            title: "Sri Ranganathaswamy Temple",
-            description: "Explore the temple if open and observe local customs.",
-            duration: "Check locally",
-            type: "highlight",
-          },
-          {
-            time: "12:00",
-            title: "Lunch break",
-            description: "Choose a local restaurant.",
-            duration: "1h",
-            type: "food",
-          },
-          {
-            time: "13:00",
-            title: "Explore local heritage",
-            description: "Visit accessible historic sites after checking their opening hours.",
-            duration: "2–3h",
+            time: "2:15 PM",
+            title: "Ranganathittu Bird Sanctuary",
+            description:
+              "Explore the accessible sanctuary areas and look for waterbirds along the Kaveri. Boat rides depend on current operations, weather, and availability.",
+            duration: "1–2 hours",
             type: "activity",
+            tip: "Bring binoculars if available. Keep your distance from wildlife and follow sanctuary rules.",
           },
           {
-            time: "16:00",
+            time: "4:15 PM",
+            title: "Relax by the river",
+            description:
+              "If time, weather, and public access permit, finish with a quiet break at an approved riverside location before returning.",
+            duration: "20–30 minutes",
+            type: "rest",
+            tip: "Stay away from strong currents, restricted riverbanks, and unsafe water access points.",
+          },
+          {
+            time: "4:45 PM",
             title: "Return to Mysuru",
-            description: "Head back when ready, allowing time for traffic.",
-            duration: "Check current route",
+            description:
+              "Begin the return journey. If a site is closed or running late, skip the optional river stop rather than rushing.",
+            duration: "Allow 30–45 minutes or more depending on traffic",
             type: "travel",
           },
         ],
@@ -752,44 +806,99 @@ export const mockDestinations: Destination[] = [
     ],
     recommendation:
       "A good choice for a slow-paced day of culture, photography and local food.",
+
     itinerary: [
       {
         day: 1,
-        title: "Melkote cultural day",
+        title: "Melkote Temple Town and Hilltop Escape",
         stops: [
           {
-            time: "08:00",
-            title: "Travel from Mysuru",
-            description: "Set out for Melkote and confirm the route before departure.",
-            duration: "Check current route",
+            time: "7:00 AM",
+            title: "Depart from Mysuru",
+            description:
+              "Start early for Melkote. Check your route and allow extra time for traffic, parking, and walking between attractions.",
+            duration: "Allow approximately 1–1.5 hours, depending on your starting point",
             type: "travel",
+            tip: "Check the temple schedules before departure, especially on festival days.",
           },
           {
-            time: "10:00",
-            title: "Cheluvanarayana Swamy Temple",
-            description: "Visit the temple, subject to current opening hours.",
-            duration: "Check locally",
-            type: "highlight",
-          },
-          {
-            time: "12:00",
-            title: "Lunch",
-            description: "Enjoy a meal at a local eatery.",
-            duration: "1h",
-            type: "food",
-          },
-          {
-            time: "13:00",
-            title: "Explore the town",
-            description: "Explore accessible heritage areas and viewpoints at a comfortable pace.",
-            duration: "2h",
+            time: "8:15 AM",
+            title: "Explore the temple town",
+            description:
+              "Walk through the traditional streets and explore the heritage atmosphere of Melkote before the main sightseeing period.",
+            duration: "30–45 minutes",
             type: "activity",
+            tip: "Wear comfortable footwear and dress respectfully around places of worship.",
           },
           {
-            time: "15:30",
-            title: "Return to Mysuru",
-            description: "Head back with time for a relaxed journey.",
-            duration: "Check current route",
+            time: "9:00 AM",
+            title: "Cheluvanarayana Swamy Temple",
+            description:
+              "Visit the historic temple dedicated to Cheluvanarayana Swamy. Allow time for darshan and appreciating the architecture and religious traditions.",
+            duration: "45–60 minutes",
+            type: "highlight",
+            tip: "Darshan timings can change during festivals and special observances. Follow temple photography rules.",
+          },
+          {
+            time: "10:15 AM",
+            title: "Kalyani sacred tank",
+            description:
+              "Spend time around the historic temple tank, observing its stone steps and traditional architecture. Respect worshippers and keep the surroundings clean.",
+            duration: "30–45 minutes",
+            type: "activity",
+            tip: "Avoid entering the water unless explicitly permitted and safe.",
+          },
+          {
+            time: "11:00 AM",
+            title: "Climb toward Yoga Narasimha Swamy Temple",
+            description:
+              "Make your way toward the hilltop temple. The ascent involves steps and can feel strenuous in hot weather, so proceed at a comfortable pace.",
+            duration: "Allow 30–60 minutes for the ascent, with additional time for rests",
+            type: "activity",
+            tip: "Carry water, use sun protection, and check current access arrangements.",
+          },
+          {
+            time: "12:00 PM",
+            title: "Hilltop temple and viewpoints",
+            description:
+              "Explore the accessible temple surroundings and enjoy views of the rocky landscape and countryside. Keep the visit respectful and follow local instructions.",
+            duration: "30–45 minutes",
+            type: "highlight",
+            tip: "Stay on permitted paths and avoid exposed edges while taking photographs.",
+          },
+          {
+            time: "1:00 PM",
+            title: "Lunch and rest",
+            description:
+              "Return to the town for lunch. Consider local dishes such as puliyogare where available, then rest before the afternoon.",
+            duration: "45–60 minutes",
+            type: "food",
+            tip: "Temple-area food outlets and their opening hours can vary. Check availability locally.",
+          },
+          {
+            time: "2:15 PM",
+            title: "Heritage walk and local culture",
+            description:
+              "Explore accessible streets and traditional buildings at a relaxed pace. If the Academy of Sanskrit Research or another heritage institution is open to visitors, check whether a visit is possible.",
+            duration: "45–60 minutes",
+            type: "activity",
+            tip: "Do not assume institutional interiors are open to walk-in visitors; confirm access beforehand.",
+          },
+          {
+            time: "3:30 PM",
+            title: "Photography and a quiet break",
+            description:
+              "Use the remaining afternoon for architecture photography, a local snack, or a relaxed walk through publicly accessible areas.",
+            duration: "30–45 minutes",
+            type: "rest",
+            tip: "Ask permission before photographing people, private property, or restricted temple areas.",
+          },
+          {
+            time: "4:15 PM",
+            title: "Return journey to Mysuru",
+            description:
+              "Begin the drive back after checking traffic and weather. If temple darshan is your priority, adjust the schedule to match the confirmed opening sessions.",
+            duration: "Allow approximately 1–1.5 hours, depending on your destination and traffic",
             type: "travel",
           },
         ],
@@ -828,65 +937,176 @@ export const mockDestinations: Destination[] = [
     ],
     recommendation:
       "Spend one night in the region and choose a small number of accessible viewpoints rather than trying to cover every attraction.",
+
     itinerary: [
       {
         day: 1,
-        title: "Journey and coffee country",
+        title: "Mountain Roads and Western Ghats Views",
         stops: [
           {
-            time: "07:00",
-            title: "Leave Mysuru",
-            description: "Begin the journey and allow for breaks and road conditions.",
-            duration: "Verify current travel time",
+            time: "6:00 AM",
+            title: "Depart from Mysuru",
+            description:
+              "Begin early for Chikkamagaluru. Allow time for breakfast, traffic, and the winding roads approaching the hill region.",
+            duration: "Plan several hours for the drive; actual time depends on route and traffic",
+            type: "travel",
+            tip: "Check road and weather conditions before leaving. Avoid planning the day around an unverified sunrise time.",
+          },
+          {
+            time: "9:30 AM",
+            title: "Breakfast and prepare for the hills",
+            description:
+              "Take a breakfast break, refill drinking water, and confirm the day's route and access conditions before continuing toward the mountain circuit.",
+            duration: "30–45 minutes",
+            type: "food",
+            tip: "Carry snacks and water because food options may be limited at some viewpoints.",
+          },
+          {
+            time: "10:15 AM",
+            title: "Drive toward Mullayanagiri",
+            description:
+              "Follow the approved route into the hills. Enjoy the changing scenery, but keep stops to designated safe places rather than narrow road shoulders.",
+            duration: "Allow time for the winding hill road",
+            type: "travel",
+            tip: "Roads can be narrow with limited passing space. Drive slowly and follow any local traffic restrictions.",
+          },
+          {
+            time: "11:00 AM",
+            title: "Mullayanagiri summit area",
+            description:
+              "Park where permitted and climb the steps toward the summit temple and viewpoint if access and weather allow. Take time to appreciate the surrounding mountain landscape.",
+            duration: "60–90 minutes",
+            type: "highlight",
+            tip: "Mist, wind, and rain can reduce visibility. Stay on established paths and avoid exposed edges.",
+          },
+          {
+            time: "12:30 PM",
+            title: "Lunch and rest",
+            description:
+              "Take a relaxed lunch break at a suitable open eatery along the route or back toward the town. Keep the schedule flexible if the mountain visit takes longer.",
+            duration: "45–60 minutes",
+            type: "food",
+            tip: "Do not rely on every roadside outlet being open; carry a small backup snack.",
+          },
+          {
+            time: "1:30 PM",
+            title: "Seethalayyanagiri",
+            description:
+              "If the approach road is open and conditions are suitable, visit this nearby hill and temple area for another perspective on the mountain range.",
+            duration: "30–45 minutes",
+            type: "activity",
+            tip: "Skip this stop if traffic, weather, or access restrictions make the hill road unsafe.",
+          },
+          {
+            time: "2:30 PM",
+            title: "Baba Budangiri and Datta Peeta area",
+            description:
+              "Continue along the hill circuit to explore the accessible viewpoints and the area's religious and cultural heritage. Follow current local instructions around places of worship.",
+            duration: "45–60 minutes",
+            type: "highlight",
+            tip: "Confirm current access and parking arrangements before setting out. Be respectful of all worshippers and traditions.",
+          },
+          {
+            time: "3:45 PM",
+            title: "Manikyadhara Falls",
+            description:
+              "If access remains open and there is sufficient time, visit the waterfall viewpoint and surrounding landscape. Conditions and water flow vary by season.",
+            duration: "30–45 minutes",
+            type: "activity",
+            tip: "Avoid slippery steps and unsafe edges. Follow posted instructions and do not enter restricted areas.",
+          },
+          {
+            time: "5:00 PM",
+            title: "Return toward Chikkamagaluru town",
+            description:
+              "Begin the return drive before it gets late. If the mountain circuit is delayed, prioritise a safe descent over adding another stop.",
+            duration: "Allow time for the winding return road",
             type: "travel",
           },
           {
-            time: "12:00",
-            title: "Lunch and check-in",
-            description: "Have lunch and settle into confirmed accommodation.",
-            duration: "1–2h",
-            type: "rest",
-          },
-          {
-            time: "15:00",
-            title: "Scenic local outing",
-            description: "Choose a currently accessible viewpoint or authorised plantation visit.",
-            duration: "Check locally",
-            type: "activity",
-          },
-          {
-            time: "18:00",
-            title: "Evening at leisure",
-            description: "Rest and enjoy the cooler hill-country atmosphere.",
+            time: "6:30 PM",
+            title: "Dinner and overnight rest",
+            description:
+              "Have dinner in town and rest before the second day. Choose accommodation separately according to your budget and transport plans.",
             duration: "Evening",
             type: "rest",
+            tip: "This itinerary does not include accommodation bookings or prices.",
           },
         ],
       },
       {
         day: 2,
-        title: "Views and return",
+        title: "Coffee Culture and a Relaxed Countryside Day",
         stops: [
           {
-            time: "08:00",
-            title: "Breakfast",
-            description: "Have breakfast before exploring.",
-            duration: "1h",
+            time: "7:30 AM",
+            title: "Breakfast in Chikkamagaluru",
+            description:
+              "Start with breakfast and review the day's weather, road conditions, and the opening arrangements for your chosen attractions.",
+            duration: "45 minutes",
             type: "food",
           },
           {
-            time: "09:00",
-            title: "Visit a permitted viewpoint",
-            description: "Choose a viewpoint with confirmed access and suitable weather.",
-            duration: "Check locally",
-            type: "highlight",
+            time: "8:30 AM",
+            title: "Coffee estate experience",
+            description:
+              "Arrange a visit to a coffee estate that welcomes visitors. Learn about coffee cultivation, harvesting, processing, and the role of coffee in the region.",
+            duration: "1–2 hours, depending on the estate",
+            type: "activity",
+            tip: "Ask the estate about visitor access, guided tours, fees, and photography permission in advance.",
           },
           {
-            time: "12:00",
-            title: "Lunch and return journey",
-            description: "Eat before beginning the return journey to Mysuru.",
-            duration: "Allow for the drive",
+            time: "10:45 AM",
+            title: "Coffee Museum or local coffee experience",
+            description:
+              "If open to visitors, explore the Coffee Museum or choose a local café to learn more about the region's coffee culture.",
+            duration: "45–60 minutes",
+            type: "activity",
+            tip: "Confirm the museum's current opening hours before relying on this stop.",
+          },
+          {
+            time: "12:00 PM",
+            title: "Lunch in town",
+            description:
+              "Take a relaxed lunch break and try regional food where available. Use this time to adjust the afternoon plan if the weather changes.",
+            duration: "45–60 minutes",
+            type: "food",
+          },
+          {
+            time: "1:15 PM",
+            title: "Hirekolale Lake",
+            description:
+              "If access and conditions permit, visit the lake area for scenic views and photography. Keep to publicly accessible areas and respect any local restrictions.",
+            duration: "45–60 minutes",
+            type: "highlight",
+            tip: "Avoid unsafe banks and entering the water. Check local conditions after heavy rain.",
+          },
+          {
+            time: "2:30 PM",
+            title: "Ratnagiri Bore or Mahatma Gandhi Park",
+            description:
+              "Consider a relaxed visit to the park area if it is open and fits your route. Enjoy the surroundings without rushing between distant attractions.",
+            duration: "45–60 minutes",
+            type: "activity",
+            tip: "Check current entry arrangements and available facilities before visiting.",
+          },
+          {
+            time: "3:45 PM",
+            title: "Coffee stop and local shopping",
+            description:
+              "Pause for coffee and, if desired, buy locally produced coffee or spices from a reputable seller.",
+            duration: "30–45 minutes",
+            type: "rest",
+            tip: "Check product labels and packaging if you plan to carry purchases home.",
+          },
+          {
+            time: "4:30 PM",
+            title: "Begin the return journey",
+            description:
+              "Depart for Mysuru with enough daylight and rest breaks. Adjust departure time to your transport method and the actual distance to your starting point.",
+            duration: "Allow several hours for the drive",
             type: "travel",
+            tip: "If travelling by public transport, check the actual service schedule rather than relying on this road-trip sequence.",
           },
         ],
       },
@@ -925,68 +1145,173 @@ export const mockDestinations: Destination[] = [
     ],
     recommendation:
       "Use this as a two-day regional plan and select a small number of nearby attractions once accommodation and current access are confirmed.",
+
     itinerary: [
       {
         day: 1,
-        title: "Travel and settle in",
+        title: "Ancient Caves and Wayanad's Heritage",
         stops: [
           {
-            time: "07:00",
-            title: "Leave Mysuru",
-            description: "Travel toward your chosen Wayanad base and allow for road and traffic conditions.",
-            duration: "Verify current route and journey time",
+            time: "6:00 AM",
+            title: "Depart from Mysuru",
+            description:
+              "Start early for the drive towards Wayanad. Choose your destination base and route in advance, and allow extra time for the hill roads and any forest-route restrictions.",
+            duration: "3–4+ hours, depending on the destination and traffic",
             type: "travel",
+            tip: "Check the route before departure. Forest roads can have regulated passage timings, so do not assume every route is open at all hours."
           },
           {
-            time: "12:00",
-            title: "Check in and lunch",
-            description: "Settle into confirmed accommodation and have lunch.",
-            duration: "1–2h",
-            type: "rest",
+            time: "9:30 AM",
+            title: "Breakfast and arrival break",
+            description:
+              "Stop for breakfast around Sulthan Bathery or another town along your route. Refill water, use the facilities and prepare for a walk with uphill sections.",
+            duration: "30–45 minutes",
+            type: "food",
+            tip: "Carry drinking water and a small snack. Keep some flexibility in the schedule for road delays."
           },
           {
-            time: "15:00",
-            title: "Local nature outing",
-            description: "Visit a nearby attraction only after confirming access and opening times.",
-            duration: "Check locally",
+            time: "10:15 AM",
+            title: "Explore Edakkal Caves",
+            description:
+              "Walk up Ambukuthi Hill to visit the famous prehistoric rock shelter. Look for the ancient engravings and pictorial markings that make this site important to the history of early human settlement in the region.",
+            duration: "1.5–2.5 hours, including the approach walk",
+            type: "highlight",
+            tip: "The approach includes uphill walking and steps. Wear shoes with good grip, carry water and confirm entry availability before setting out. The official tourism listing currently notes Monday closures and offline ticketing."
+          },
+          {
+            time: "12:45 PM",
+            title: "Lunch near Ambalavayal",
+            description:
+              "Take a proper lunch break after the climb. Try local Kerala meals or choose a simple restaurant convenient for the next stop.",
+            duration: "45–60 minutes",
+            type: "food",
+            tip: "Keep the afternoon relaxed rather than rushing between attractions."
+          },
+          {
+            time: "1:45 PM",
+            title: "Visit Wayanad Heritage Museum",
+            description:
+              "Explore regional archaeological objects and cultural exhibits that provide context for Wayanad's history and its earlier communities.",
+            duration: "45–60 minutes",
             type: "activity",
+            tip: "Check the museum's current opening status and entry arrangements before visiting."
           },
           {
-            time: "18:00",
-            title: "Evening rest",
-            description: "Return to your accommodation before dark.",
+            time: "3:00 PM",
+            title: "Discover the Sulthan Bathery heritage area",
+            description:
+              "If time and opening arrangements permit, visit the historic Jain Temple area and appreciate its distinctive architecture and heritage. Keep this stop short if you are tired after Edakkal.",
+            duration: "30–45 minutes",
+            type: "activity",
+            tip: "Respect any worship or access restrictions, and verify current visiting hours locally."
+          },
+          {
+            time: "4:00 PM",
+            title: "Scenic drive and photo breaks",
+            description:
+              "Continue towards your chosen overnight base. Enjoy the green countryside, plantations and changing hill scenery from safe stopping points.",
+            duration: "45–90 minutes, depending on your route",
+            type: "travel",
+            tip: "Only stop where parking is safe and permitted. Avoid stepping into private plantations without permission."
+          },
+          {
+            time: "6:00 PM",
+            title: "Dinner and overnight rest",
+            description:
+              "Check in to your independently arranged stay, freshen up and enjoy dinner. Use the evening to plan the next day's route and check weather and attraction updates.",
             duration: "Evening",
             type: "rest",
-          },
-        ],
+            tip: "Accommodation is not included in this itinerary. Choose a base that makes the following day's attractions and your return route practical."
+          }
+        ]
       },
       {
         day: 2,
-        title: "Nature and return",
+        title: "Misty Viewpoints and a Peaceful Lake",
         stops: [
           {
-            time: "08:00",
-            title: "Breakfast",
-            description: "Have breakfast and check the day's weather and access advisories.",
-            duration: "1h",
+            time: "7:00 AM",
+            title: "Breakfast and morning departure",
+            description:
+              "Have breakfast and set out early. Keep your day flexible depending on the location of your stay and the weather in the hills.",
+            duration: "45 minutes",
             type: "food",
+            tip: "Carry a light rain jacket, water and a charged phone. Mist can reduce visibility on hill roads."
           },
           {
-            time: "09:00",
-            title: "Visit a permitted attraction",
-            description: "Choose an accessible viewpoint or nature attraction appropriate to the weather.",
-            duration: "Check locally",
+            time: "8:30 AM",
+            title: "Lakkidi Viewpoint",
+            description:
+              "Pause at this well-known viewpoint near the mountain pass for broad views across the forested valleys. On a clear morning, the layered hills make a beautiful photography stop.",
+            duration: "20–40 minutes",
             type: "highlight",
+            tip: "Views depend on cloud cover and weather. Park only in designated or safe areas, and stay away from road edges."
           },
           {
-            time: "12:00",
-            title: "Lunch and return journey",
-            description: "Begin the return trip after lunch, allowing adequate travel time.",
-            duration: "Verify current route",
+            time: "9:15 AM",
+            title: "Scenic drive through the Vythiri area",
+            description:
+              "Enjoy the winding roads and green landscapes around Vythiri. Take your time and use only safe, permitted pull-offs for photographs.",
+            duration: "30–45 minutes",
             type: "travel",
+            tip: "Drive slowly on wet or foggy roads and avoid stopping in traffic lanes."
           },
-        ],
-      },
+          {
+            time: "10:00 AM",
+            title: "Relax at Pookode Lake",
+            description:
+              "Spend a peaceful morning beside the freshwater lake, surrounded by forested hills. Walk along the lakeside paths and enjoy the natural setting; boating may be available depending on operating conditions.",
+            duration: "1–1.5 hours",
+            type: "highlight",
+            tip: "Confirm current entry and boating availability before visiting. Follow local instructions and do not assume every activity operates during poor weather."
+          },
+          {
+            time: "11:30 AM",
+            title: "Coffee, tea or local snack break",
+            description:
+              "Take a short break at a suitable local café or food stop. This is a good opportunity to try regional snacks before the drive back.",
+            duration: "30–45 minutes",
+            type: "food",
+            tip: "Choose a stop that fits your return route so you do not add unnecessary driving."
+          },
+          {
+            time: "12:15 PM",
+            title: "Optional plantation or local shopping stop",
+            description:
+              "If time permits, visit a public-facing local shop for coffee, spices or other regional products. A plantation visit should only be included if the owner or operator confirms access.",
+            duration: "30–60 minutes",
+            type: "activity",
+            tip: "Avoid entering private estate roads or fields without permission. Skip this stop if you need to begin the return journey early."
+          },
+          {
+            time: "1:15 PM",
+            title: "Lunch before the return drive",
+            description:
+              "Have lunch and check the estimated driving time, weather and road conditions before leaving Wayanad.",
+            duration: "45–60 minutes",
+            type: "food",
+            tip: "Keep some buffer time for traffic, rain and regulated forest-road passage."
+          },
+          {
+            time: "2:15 PM",
+            title: "Begin the return journey to Mysuru",
+            description:
+              "Start back using a currently permitted route. Plan for breaks as needed, and avoid trying to fit in distant attractions at the last minute.",
+            duration: "3–4+ hours, depending on the route and traffic",
+            type: "travel",
+            tip: "The return time is an estimate, not a guarantee. Check current route restrictions before departure and avoid driving when tired."
+          },
+          {
+            time: "6:30 PM",
+            title: "Arrive back in Mysuru",
+            description:
+              "Finish the weekend with time to unpack, rest and save your favourite photographs from Wayanad.",
+            duration: "Arrival time varies",
+            type: "rest",
+            tip: "If you leave late or encounter delays, prioritise a safe return over completing every optional stop."
+          }
+        ]
+      }
     ],
     sourceUrls: ["https://wayanad.gov.in/"],
     verificationStatus: "unverified",
