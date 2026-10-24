@@ -10,11 +10,17 @@ import type { Trail, StartingCity, Difficulty } from "@/types";
 // Real photographs available under /public/images/trails/.
 // For any unmapped trail, a neutral fallback is displayed.
 
+
+
 const TRAIL_IMAGES: Record<string, string> = {
   "kumara-parvatha-trek": "/images/trails/kumara-parvatha.jpg",
   "skandagiri-night-trek": "/images/trails/skandagiri.jpg",
   "tadiandamol-peak": "/images/trails/tadiandamol.jpg",
   "savandurga-day-trek": "/images/trails/savandurga.jpg",
+  "makalidurga-day-trek": "/images/trails/makalidurga.jpg",
+  "kunti-betta-trek": "/images/trails/kunti-betta.jpg",
+  "mullayanagiri-summit-trek": "/images/trails/mullayanagiri.jpg",
+  "kudremukh-national-park-trek": "/images/trails/kudremukh.jpg",
 };
 
 // ─── Filter Options ───────────────────────────────────────────────────────────
@@ -217,11 +223,10 @@ export default function TrailsPage() {
                       type="button"
                       onClick={() => setSelectedCity(city)}
                       aria-pressed={isActive}
-                      className={`px-4 py-1.5 rounded-full text-xs tracking-wide border transition-colors ${
-                        isActive
-                          ? "bg-foreground text-background border-foreground font-medium"
-                          : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
-                      }`}
+                      className={`px-4 py-1.5 rounded-full text-xs tracking-wide border transition-colors ${isActive
+                        ? "bg-foreground text-background border-foreground font-medium"
+                        : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
+                        }`}
                     >
                       {city === "All" ? "All cities" : city}
                     </button>
@@ -248,11 +253,10 @@ export default function TrailsPage() {
                       type="button"
                       onClick={() => setSelectedDifficulty(diff)}
                       aria-pressed={isActive}
-                      className={`px-4 py-1.5 rounded-full text-xs tracking-wide border transition-colors ${
-                        isActive
-                          ? "bg-foreground text-background border-foreground font-medium"
-                          : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
-                      }`}
+                      className={`px-4 py-1.5 rounded-full text-xs tracking-wide border transition-colors ${isActive
+                        ? "bg-foreground text-background border-foreground font-medium"
+                        : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
+                        }`}
                     >
                       {diff === "All" ? "All levels" : diff}
                     </button>

@@ -9,11 +9,16 @@ import type { ItineraryStop } from "@/types";
 // Real photographs available under /public/images/trails/.
 // For any unmapped trail, a neutral fallback is displayed.
 
+
 const TRAIL_IMAGES: Record<string, string> = {
   "kumara-parvatha-trek": "/images/trails/kumara-parvatha.jpg",
   "skandagiri-night-trek": "/images/trails/skandagiri.jpg",
   "tadiandamol-peak": "/images/trails/tadiandamol.jpg",
   "savandurga-day-trek": "/images/trails/savandurga.jpg",
+  "makalidurga-day-trek": "/images/trails/makalidurga.jpg",
+  "kunti-betta-trek": "/images/trails/kunti-betta.jpg",
+  "mullayanagiri-summit-trek": "/images/trails/mullayanagiri.jpg",
+  "kudremukh-national-park-trek": "/images/trails/kudremukh.jpg",
 };
 
 // ─── Static Params ────────────────────────────────────────────────────────────

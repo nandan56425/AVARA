@@ -6,6 +6,7 @@ import type { ItineraryDay, ItineraryStop } from "@/types";
 
 // ─── Image map ────────────────────────────────────────────────────────────────
 
+
 const DESTINATION_IMAGES: Record<string, string> = {
     "coorg-weekend-escape": "/images/destinations/coorg.jpg",
     "nandi-hills-sunrise": "/images/destinations/nandi-hills.jpg",
@@ -13,6 +14,10 @@ const DESTINATION_IMAGES: Record<string, string> = {
     "mysuru-to-ooty-scenic": "/images/destinations/mysuru-ooty1.jpg",
     "shivanasamudra-falls": "/images/destinations/shivanasamudra.jpg",
     "sakleshpur-green-route": "/images/destinations/sakleshpur.jpg",
+    "srirangapatna-heritage": "/images/destinations/srirangapatna.jpg",
+    "melkote-cultural-escape": "/images/destinations/melkote.jpg",
+    "chikmagalur-weekend-escape": "/images/destinations/chikmagalur.jpg",
+    "wayanad-nature-escape": "/images/destinations/wayanad.jpg",
 };
 
 // ─── Static params ────────────────────────────────────────────────────────────
