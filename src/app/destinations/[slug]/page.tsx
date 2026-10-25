@@ -192,11 +192,11 @@ export default async function DestinationPage({
                         {destination.name}
                     </h1>
                     <div className="mt-5">
-    <SaveTripButton
-        destinationSlug={destination.slug}
-        className="border-white/70 bg-white/10 text-white backdrop-blur-sm hover:bg-white hover:text-stone-900"
-    />
-</div>
+                     <SaveTripButton
+                        destinationSlug={destination.slug}
+                        className="border-white/70 bg-white/10 text-white backdrop-blur-sm hover:bg-white hover:text-stone-900"
+                     />
+                    </div>
                     <p className="mt-3 text-base md:text-lg text-white/80 max-w-xl leading-relaxed">
                         {destination.tagline}
                     </p>
