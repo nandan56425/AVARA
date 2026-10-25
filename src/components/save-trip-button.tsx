@@ -27,25 +27,33 @@ export default function SaveTripButton({
           cache: "no-store",
         });
 
-        if (!response.ok) {
+        if (response.status === 401) {
           if (!cancelled) setIsLoading(false);
           return;
         }
 
+        if (!response.ok) {
+          if (!cancelled) {
+            setMessage("Unable to check saved trips.");
+            setIsLoading(false);
+          }
+          return;
+        }
+
         const data = await response.json();
+        const savedSlugs: string[] = Array.isArray(data.savedSlugs)
+          ? data.savedSlugs
+          : [];
 
         if (!cancelled) {
-          const savedSlugs: string[] = Array.isArray(data.savedTrips)
-            ? data.savedTrips
-            : Array.isArray(data.slugs)
-              ? data.slugs
-              : [];
-
           setIsSaved(savedSlugs.includes(destinationSlug));
           setIsLoading(false);
         }
       } catch {
-        if (!cancelled) setIsLoading(false);
+        if (!cancelled) {
+          setMessage("Unable to check saved trips.");
+          setIsLoading(false);
+        }
       }
     }
 
@@ -57,10 +65,9 @@ export default function SaveTripButton({
   }, [destinationSlug]);
 
   async function handleSave() {
-    setMessage("");
-
     if (isLoading || isSaving) return;
 
+    setMessage("");
     setIsSaving(true);
 
     try {
@@ -69,7 +76,7 @@ export default function SaveTripButton({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ destinationSlug }),
+        body: JSON.stringify({ slug: destinationSlug }),
       });
 
       if (response.status === 401) {
@@ -82,12 +89,18 @@ export default function SaveTripButton({
       const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        setMessage(data.error || "Unable to update saved trips. Please try again.");
+        setMessage(
+          data.error || "Unable to update saved trips. Please try again."
+        );
         return;
       }
 
       setIsSaved(!isSaved);
-      setMessage(isSaved ? "Trip removed from saved trips." : "Trip saved successfully.");
+      setMessage(
+        isSaved
+          ? "Trip removed from saved trips."
+          : "Trip saved successfully."
+      );
     } catch {
       setMessage("Connection error. Please try again.");
     } finally {
@@ -110,11 +123,15 @@ export default function SaveTripButton({
           : isSaving
             ? "Updating…"
             : isSaved
-              ? "Saved"
-              : "Save this trip"}
+              ? "♥ Saved"
+              : "♡ Save this trip"}
       </button>
 
-      <p className="text-xs text-muted-foreground" role="status" aria-live="polite">
+      <p
+        className="text-xs text-muted-foreground"
+        role="status"
+        aria-live="polite"
+      >
         {message}
       </p>
     </div>
