@@ -110,7 +110,7 @@ export default function HomePage() {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
-                href="/itinerary-planner"
+                href="/plan"
                 className="inline-flex h-14 items-center justify-center rounded-sm bg-[#4A5D4E] px-8 text-sm font-medium tracking-wide text-white transition-colors hover:bg-[#3D4C40] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
               >
                 Plan My Weekend
