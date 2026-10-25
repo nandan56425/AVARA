@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { mockDestinations } from "@/data/mock-destinations";
 import type { ItineraryDay, ItineraryStop } from "@/types";
+import SaveTripButton from "@/components/save-trip-button";
 
 // ─── Image map ────────────────────────────────────────────────────────────────
 
