@@ -5,6 +5,7 @@ import { connectToDatabase } from "@/lib/db";
 import User from "@/models/User";
 import SavedTrip from "@/models/SavedTrip";
 import { mockDestinations } from "@/data/mock-destinations";
+import { mockTrails } from "@/data/mock-trails";
 
 export const runtime = "nodejs";
 
@@ -23,10 +24,11 @@ async function getAuthenticatedUser() {
     }).select("_id");
 }
 
-function isValidDestination(slug: unknown): slug is string {
+function isValidSavedTripSlug(slug: unknown): slug is string {
     return (
         typeof slug === "string" &&
-        mockDestinations.some((destination) => destination.slug === slug)
+        (mockDestinations.some((destination) => destination.slug === slug) ||
+            mockTrails.some((trail) => trail.slug === slug))
     );
 }
 
@@ -76,7 +78,7 @@ export async function POST(request: Request) {
             !body ||
             typeof body !== "object" ||
             !("slug" in body) ||
-            !isValidDestination(body.slug)
+            !isValidSavedTripSlug(body.slug)
         ) {
             return NextResponse.json(
                 { error: "Please provide a valid destination." },
@@ -126,7 +128,7 @@ export async function DELETE(request: Request) {
             !body ||
             typeof body !== "object" ||
             !("slug" in body) ||
-            !isValidDestination(body.slug)
+            !isValidSavedTripSlug(body.slug)
         ) {
             return NextResponse.json(
                 { error: "Please provide a valid destination." },
