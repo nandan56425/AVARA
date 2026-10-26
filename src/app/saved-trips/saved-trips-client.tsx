@@ -14,6 +14,17 @@ const DESTINATION_IMAGES: Record<string, string> = {
     "sakleshpur-green-route": "/images/destinations/sakleshpur.jpg",
 };
 
+const TRAIL_IMAGES: Record<string, string> = {
+  "kumara-parvatha-trek": "/images/trails/kumara-parvatha.jpg",
+  "skandagiri-night-trek": "/images/trails/skandagiri.jpg",
+  "tadiandamol-peak": "/images/trails/tadiandamol.jpg",
+  "savandurga-day-trek": "/images/trails/savandurga.jpg",
+  "makalidurga-day-trek": "/images/trails/makalidurga.jpg",
+  "kunti-betta-trek": "/images/trails/kunti-betta.jpg",
+  "mullayanagiri-summit-trek": "/images/trails/mullayanagiri.jpg",
+  "kudremukh-national-park-trek": "/images/trails/kudremukh.jpg",
+};
+
 export default function SavedTripsPage() {
     const [savedSlugs, setSavedSlugs] = useState<string[]>([]);
     const [loaded, setLoaded] = useState(false);
@@ -228,7 +239,7 @@ export default function SavedTripsPage() {
         >
             <div className="relative aspect-[3/2] overflow-hidden rounded-sm bg-muted mb-5">
                 <img
-                    src={`/images/trails/${trail.slug}.jpg`}
+                    src={TRAIL_IMAGES[trail.slug]}
                     alt={trail.name}
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
