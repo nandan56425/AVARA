@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Mountain } from "lucide-react";
 import { mockTrails } from "@/data/mock-trails";
 import type { ItineraryStop } from "@/types";
+import SaveTripButton from "@/components/save-trip-button";
 
 // ─── Image Map ────────────────────────────────────────────────────────────────
 // Real photographs available under /public/images/trails/.
@@ -199,12 +200,20 @@ export default async function TrailDetailPage({
               <p className="text-[10px] tracking-[0.2em] text-white/70 mb-3 uppercase font-medium">
                 {trail.experienceTags[0] || trail.difficulty}
               </p>
-              <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium text-white tracking-tight max-w-3xl">
-                {trail.name}
-              </h1>
-              <p className="mt-3 text-base md:text-lg text-white/80 max-w-xl leading-relaxed">
+             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium text-white tracking-tight max-w-3xl">
+               {trail.name}
+             </h1>
+
+             <div className="mt-5">
+               <SaveTripButton
+                 destinationSlug={trail.slug}
+                 className="border-white/70 bg-white/10 text-white backdrop-blur-sm hover:bg-white hover:text-stone-900"
+               />
+             </div>
+
+             <p className="mt-3 text-base md:text-lg text-white/80 max-w-xl leading-relaxed">
                 {trail.tagline}
-              </p>
+             </p>
             </div>
           </>
         ) : (
