@@ -25,6 +25,12 @@ From mist-covered hills and peaceful nature escapes to sunrise viewpoints and ch
 
 The goal is simple: **make planning a memorable weekend trip easier, more organized, and more inspiring.**
 
+## 📸 Website Preview
+
+![AVARA Homepage](screenshots/homepage.png)
+
+[Visit the Live Website](https://avara-nu-two.vercel.app/)
+
 ## ✨ Features
 
 - **Explore Destinations** — Discover curated destinations, scenic escapes, and places worth visiting.
