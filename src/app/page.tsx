@@ -440,7 +440,7 @@ export default function HomePage() {
                 </Link>
 
                 <a
-                  href="mailto:hello.avara.travel@gmail.com"
+                  href="/contact"
                   className="hover:text-muted-foreground transition-colors"
                 >
                   Contact
