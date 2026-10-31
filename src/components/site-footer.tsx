@@ -60,12 +60,12 @@ export function SiteFooter() {
               >
                 About Avara
               </Link>
-              <a
-                href="mailto:hello.avara.travel@gmail.com"
+              <Link
+                href="/contact"
                 className="hover:text-muted-foreground transition-colors"
               >
                 Contact
-              </a>
+              </Link>
             </div>
           </div>
         </div>
