@@ -18,17 +18,16 @@ export default function ContactPage() {
 
     const [feedback, setFeedback] = useState("");
 
-    function handleChange(
-        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) {
-  setForm({
-  name: "",
-  email: "",
-  subject: "",
-  message: "",
-  website: "",
-});
-    }
+function handleChange(
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+) {
+    const { name, value } = event.target;
+
+    setForm((previousForm) => ({
+        ...previousForm,
+        [name]: value,
+    }));
+}
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -70,7 +69,13 @@ export default function ContactPage() {
 
             setStatus("success");
             setFeedback("Thank you for reaching out. Your message has been sent!");
-            setForm({ name: "", email: "", subject: "", message: "" });
+            setForm({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+    website: "",
+});
         } catch (error) {
             setStatus("error");
             setFeedback(
