@@ -21,7 +21,7 @@ export default function ContactPage() {
     function handleChange(
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) {
-        setForm({
+  setForm({
   name: "",
   email: "",
   subject: "",
