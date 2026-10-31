@@ -15,6 +15,15 @@ export async function POST(request: Request) {
             typeof body.subject === "string" ? body.subject.trim() : "";
         const message =
             typeof body.message === "string" ? body.message.trim() : "";
+        const website =
+  typeof body.website === "string" ? body.website.trim() : "";
+
+if (website) {
+  return NextResponse.json(
+    { message: "Your message has been sent successfully." },
+    { status: 200 }
+  );
+}
 
         if (!name || !email || !subject || !message) {
             return NextResponse.json(
