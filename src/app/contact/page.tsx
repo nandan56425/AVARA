@@ -5,11 +5,12 @@ import Link from "next/link";
 
 export default function ContactPage() {
     const [form, setForm] = useState({
-        name: "",
-        email: "",
-        subject: "",
-        message: "",
-    });
+  name: "",
+  email: "",
+  subject: "",
+  message: "",
+  website: "",
+});
 
     const [status, setStatus] = useState<
         "idle" | "sending" | "success" | "error"
@@ -20,7 +21,13 @@ export default function ContactPage() {
     function handleChange(
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) {
-        setForm({ ...form, [event.target.name]: event.target.value });
+        setForm({
+  name: "",
+  email: "",
+  subject: "",
+  message: "",
+  website: "",
+});
     }
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -118,6 +125,21 @@ export default function ContactPage() {
 
                     <div>
                         <form onSubmit={handleSubmit} className="space-y-6">
+                            <div
+  aria-hidden="true"
+  className="absolute -left-[10000px] top-auto h-px w-px overflow-hidden"
+>
+  <label htmlFor="website">Leave this field empty</label>
+  <input
+    id="website"
+    name="website"
+    type="text"
+    tabIndex={-1}
+    autoComplete="off"
+    value={form.website}
+    onChange={handleChange}
+  />
+</div>
                             <div>
                                 <label
                                     htmlFor="name"
