@@ -135,24 +135,25 @@ export default function ExplorePage() {
                                     <button
                                         key={tag}
                                         onClick={() => {
-                                            const nextCategory = activeCategory === tag ? null : tag;
-                                            setActiveCategory(nextCategory);
+    const nextCategory = activeCategory === tag ? null : tag;
+    setActiveCategory(nextCategory);
 
-                                            const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(window.location.search);
 
-                                            if (nextCategory) {
-                                                params.set("category", nextCategory);
-                                            } else {
-                                                params.delete("category");
-                                            }
+    if (nextCategory) {
+        params.set("category", nextCategory);
+    } else {
+        params.delete("category");
+    }
 
-                                            const query = params.toString();
-                                            window.history.replaceState(
-                                                null,
-                                                "",
-                                                query ? `/explore?${query}` : "/explore"
-                                            );
-                                        }}
+    const query = params.toString();
+
+    window.history.replaceState(
+        null,
+        "",
+        query ? `/explore?${query}` : "/explore"
+    );
+}}
                                         className={`px-4 py-1.5 rounded-full text-xs tracking-wide border transition-colors ${activeCategory === tag
                                             ? "bg-foreground text-background border-foreground"
                                             : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
@@ -174,15 +175,25 @@ export default function ExplorePage() {
                                     <button
                                         key={tag}
                                         onClick={() => {
-                                            const nextMood = activeMood === tag ? null : tag;
-                                            setActiveMood(nextMood);
+    const nextMood = activeMood === tag ? null : tag;
+    setActiveMood(nextMood);
 
-                                            const url = nextMood
-                                                ? `/explore?mood=${encodeURIComponent(nextMood)}`
-                                                : "/explore";
+    const params = new URLSearchParams(window.location.search);
 
-                                            window.history.replaceState(null, "", url);
-                                        }}
+    if (nextMood) {
+        params.set("mood", nextMood);
+    } else {
+        params.delete("mood");
+    }
+
+    const query = params.toString();
+
+    window.history.replaceState(
+        null,
+        "",
+        query ? `/explore?${query}` : "/explore"
+    );
+}}
                                         className={`px-4 py-1.5 rounded-full text-xs tracking-wide border transition-colors ${activeMood === tag
                                             ? "bg-foreground text-background border-foreground"
                                             : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
