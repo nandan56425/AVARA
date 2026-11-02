@@ -18,40 +18,46 @@ const TRAIL_IMAGES = [
 
 const MOODS = [
   {
-    title: "Sunrise",
-    description: "Start early. Find somewhere worth the morning.",
+    title: "Sunrise Escapes",
+    description: "Catch the first light at viewpoints made for early mornings.",
     tag: "EARLY STARTS",
-    mood: "Photography",
+    filterType: "category",
+    filterValue: "Sunrise",
   },
   {
     title: "Quiet Nature",
-    description: "Slow down somewhere surrounded by green.",
+    description: "Slow down among forests, green landscapes, and peaceful escapes.",
     tag: "SLOW ESCAPES",
-    mood: "Peaceful",
+    filterType: "mood",
+    filterValue: "Peaceful",
   },
   {
     title: "A Proper Trek",
-    description: "For weekends that deserve a little effort.",
-    tag: "TRAILS",
-    mood: "Adventurous",
+    description: "Find your next challenge on a mountain trail.",
+    tag: "TRAILS & HIKES",
+    filterType: "category",
+    filterValue: "Treks",
   },
   {
-    title: "Photography",
-    description: "Scenic places made for chasing the right frame.",
+    title: "Photography Spots",
+    description: "Discover destinations with scenic views worth capturing.",
     tag: "SCENIC SPOTS",
-    mood: "Photography",
+    filterType: "category",
+    filterValue: "Photography",
   },
   {
-    title: "Scenic Drive",
-    description: "Take the long way. It might be the best part.",
+    title: "Scenic Drives",
+    description: "Take the longer route through beautiful landscapes.",
     tag: "ROAD TRIPS",
-    mood: "Scenic drive",
+    filterType: "mood",
+    filterValue: "Scenic drive",
   },
   {
-    title: "Waterfalls & Monsoon",
-    description: "Follow the rain to places that come alive.",
-    tag: "MONSOON",
-    mood: "Offbeat",
+    title: "Waterfalls",
+    description: "Explore cascading water and lush surroundings.",
+    tag: "WATERFALL ESCAPES",
+    filterType: "category",
+    filterValue: "Waterfalls",
   },
 ];
 
@@ -286,7 +292,7 @@ export default function HomePage() {
             {MOODS.map((mood) => (
               <Link
                 key={mood.title}
-                href={`/explore?mood=${encodeURIComponent(mood.mood)}`}
+                href={`/explore?${mood.filterType}=${encodeURIComponent(mood.filterValue)}`}
                 className="group bg-[#f3f1eb] p-8 md:p-10 min-h-[220px] flex flex-col justify-between transition-colors duration-500 hover:bg-white"
               >
                 <div>
