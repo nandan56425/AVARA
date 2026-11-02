@@ -65,10 +65,10 @@ const MOODS = [
 const AVARA_PICKS = [
   {
     number: "01",
-    title: "Tadiandamol",
-    description: "For when you want a proper mountain weekend.",
+    title: "Mullayanagiri Trek",
+    description: "Karnataka's highest peak.",
     category: "MOUNTAINS",
-    href: "/trails/tadiandamol-peak",
+    href: "/trails/mullayanagiri-summit-trek",
   },
   {
     number: "02",
@@ -79,10 +79,10 @@ const AVARA_PICKS = [
   },
   {
     number: "03",
-    title: "BR Hills",
-    description: "For getting away from the noise.",
-    category: "QUIET ESCAPES",
-    href: "/destinations/br-hills-wildlife",
+    title: "Kumara Parvatha",
+    description: "For a challenging multi-day trek.",
+    category: "MOUNTAINS",
+    href: "/trails/kumara-parvatha-trek",
   },
 ];
 export default function HomePage() {
