@@ -14,7 +14,7 @@ export const mockDestinations: Destination[] = [
     duration: "2 days",
     budgetRange: "₹2,000–₹4,000",
     bestSeason: "Post-monsoon",
-    experienceTags: ["Scenic drives", "Photography", "Forests"],
+    experienceTags: ["Scenic drives", "Photography", "Forests", "Waterfalls"],
     moodTags: ["Peaceful", "Romantic", "Weekend reset"],
     highlights: [
       "Drive through coffee plantations",
