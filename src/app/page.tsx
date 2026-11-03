@@ -156,18 +156,14 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Editorial Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-14">
-            {featuredEscapes.map((destination, index) => {
-              // Create an editorial offset for the middle card on large screens
-              const marginClass = index === 1 ? "lg:mt-16" : "";
-
-              return (
-                <Link
-                  key={destination.slug}
-                  href={`/destinations/${destination.slug}`}
-                  className={`group flex flex-col ${marginClass}`}
-                >
+  {featuredEscapes.map((destination) => {
+    return (
+      <Link
+        key={destination.slug}
+        href={`/destinations/${destination.slug}`}
+        className="group flex flex-col"
+      >
                   {/* Image Container */}
                   <div className="relative w-full aspect-[3/2] overflow-hidden rounded-sm mb-6 md:mb-8 bg-muted">
                     <img
