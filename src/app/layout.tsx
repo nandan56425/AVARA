@@ -1,3 +1,4 @@
+
 import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
@@ -14,15 +15,38 @@ const fontSerif = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://avara-escapes.vercel.app"),
+
   title: {
-    default: "Avara — Curated Weekend Escapes",
-    template: "%s | Avara",
+    default: "AVARA | Curated Weekend Escapes",
+    template: "%s | AVARA",
   },
+
   description:
-    "Discover curated weekend escapes and scenic treks around Mysuru and Bengaluru. Carefully planned itineraries for unforgettable local adventures.",
-   verification: {
-  google: "BbwTXXcV8q9-hT4ddytF3Xro2jUJc8xT_4q9ZBUGXzA",
-},
+    "Discover curated weekend escapes, scenic destinations and trekking trails around Mysuru and Bengaluru. Explore thoughtfully planned itineraries for your next adventure.",
+
+  verification: {
+    google: "BbwTXXcV8q9-hT4ddytF3Xro2jUJc8xT_4q9ZBUGXzA",
+  },
+
+  alternates: {
+    canonical: "/",
+  },
+
+  openGraph: {
+    title: "AVARA | Find Somewhere Worth Going",
+    description:
+      "Explore curated weekend escapes and scenic trails around Mysuru and Bengaluru.",
+    url: "https://avara-escapes.vercel.app",
+    siteName: "AVARA",
+    locale: "en_IN",
+    type: "website",
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export const viewport: Viewport = {
