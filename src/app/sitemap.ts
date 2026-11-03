@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next";
 import { mockDestinations } from "@/data/mock-destinations";
 import { mockTrails } from "@/data/mock-trails";
 
-const BASE_URL = "https://avara-nu-two.vercel.app";
+const BASE_URL = "https://avara-escapes.vercel.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages = [
