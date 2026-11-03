@@ -18,6 +18,9 @@ export const metadata: Metadata = {
     default: "Avara — Curated Weekend Escapes",
     template: "%s | Avara",
   },
+  verification: {
+  google: "BbwTXXcV8q9-hT4ddytF3Xro2jUJc8xT_4q9ZBUGXzA",
+},
   description:
     "Discover curated weekend escapes and scenic treks around Mysuru and Bengaluru. Carefully planned itineraries for unforgettable local adventures.",
 };
