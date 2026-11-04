@@ -55,32 +55,7 @@ export async function generateMetadata({
 
   const image =
     TRAIL_IMAGES[trail.slug] ?? "/images/hero/avara-hero.jpg";
-
-  const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: "https://avara-escapes.vercel.app/",
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Trails",
-      item: "https://avara-escapes.vercel.app/trails",
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: trail.name,
-      item: `https://avara-escapes.vercel.app/trails/${trail.slug}`,
-    },
-  ],
-};
-
+  
   return {
     title,
     description,
@@ -137,6 +112,31 @@ export default async function TrailDetailPage({
   }
 
   const image = TRAIL_IMAGES[trail.slug];
+
+    const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://avara-escapes.vercel.app/",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Trails",
+        item: "https://avara-escapes.vercel.app/trails",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: trail.name,
+        item: `https://avara-escapes.vercel.app/trails/${trail.slug}`,
+      },
+    ],
+  };
 
   const travelInfo = [
     { label: "FROM", value: trail.startingCity },
