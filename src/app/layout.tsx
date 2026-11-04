@@ -34,14 +34,30 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: "AVARA | Find Somewhere Worth Going",
-    description:
-      "Explore curated weekend escapes and scenic trails around Mysuru and Bengaluru.",
-    url: "https://avara-escapes.vercel.app",
-    siteName: "AVARA",
-    locale: "en_IN",
-    type: "website",
-  },
+  title: "AVARA | Find Somewhere Worth Going",
+  description:
+    "Explore curated weekend escapes and scenic trails around Mysuru and Bengaluru.",
+  url: "https://avara-escapes.vercel.app/",
+  siteName: "AVARA",
+  locale: "en_IN",
+  type: "website",
+  images: [
+    {
+      url: "/images/hero/avara-hero.jpg",
+      width: 1200,
+      height: 630,
+      alt: "AVARA – Curated Weekend Escapes and Scenic Trails",
+    },
+  ],
+},
+
+  twitter: {
+  card: "summary_large_image",
+  title: "AVARA | Find Somewhere Worth Going",
+  description:
+    "Explore curated weekend escapes and scenic trails around Mysuru and Bengaluru.",
+  images: ["/images/hero/avara-hero.jpg"],
+},
 
   robots: {
     index: true,
