@@ -29,6 +29,7 @@ export function generateStaticParams() {
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
 
+
 export async function generateMetadata({
     params,
 }: {
@@ -38,14 +39,48 @@ export async function generateMetadata({
     const destination = mockDestinations.find((d) => d.slug === slug);
 
     if (!destination) {
-        return { title: "Destination not found" };
+        return {
+            title: "Destination not found",
+            robots: {
+                index: false,
+                follow: false,
+            },
+        };
     }
 
+    const title = `${destination.name} Weekend Getaway`;
+    const description = `${destination.description} Explore the itinerary, highlights, travel information and planning tips with AVARA.`;
+
+    const canonicalUrl = `https://avara-escapes.vercel.app/destinations/${destination.slug}`;
+
     return {
-        title: destination.name,
-        description: destination.description,
+        title,
+        description,
+        alternates: {
+            canonical: canonicalUrl,
+        },
+        openGraph: {
+            title: `${title} | AVARA`,
+            description,
+            url: canonicalUrl,
+            siteName: "AVARA",
+            type: "article",
+            images: [
+                {
+                    url: DESTINATION_IMAGES[destination.slug],
+                    alt: `${destination.name} destination`,
+                },
+            ],
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: `${title} | AVARA`,
+            description,
+            images: [DESTINATION_IMAGES[destination.slug]],
+        },
     };
 }
+
 
 // ─── Stop type colour/label helpers ──────────────────────────────────────────
 
