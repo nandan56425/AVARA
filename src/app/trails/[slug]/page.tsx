@@ -56,6 +56,31 @@ export async function generateMetadata({
   const image =
     TRAIL_IMAGES[trail.slug] ?? "/images/hero/avara-hero.jpg";
 
+  const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://avara-escapes.vercel.app/",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Trails",
+      item: "https://avara-escapes.vercel.app/trails",
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: trail.name,
+      item: `https://avara-escapes.vercel.app/trails/${trail.slug}`,
+    },
+  ],
+};
+
   return {
     title,
     description,
@@ -128,6 +153,12 @@ export default async function TrailDetailPage({
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify(breadcrumbSchema),
+  }}
+/>
       {/* ── 1. Hero ──────────────────────────────────────────────────────── */}
       <section className="relative w-full aspect-[16/9] md:aspect-[21/9] max-h-[640px] min-h-[380px] bg-muted overflow-hidden">
         {image ? (
