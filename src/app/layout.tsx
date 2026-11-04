@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   type: "website",
   images: [
     {
-      url: "/images/hero/avara-hero.jpg",
+      url: "/images/hero/avara-og.jpg",
       width: 1200,
       height: 630,
       alt: "AVARA – Curated Weekend Escapes and Scenic Trails",
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
   title: "AVARA | Find Somewhere Worth Going",
   description:
     "Explore curated weekend escapes and scenic trails around Mysuru and Bengaluru.",
-  images: ["/images/hero/avara-hero.jpg"],
+  images: ["/images/hero/avara-og.jpg"],
 },
 
   robots: {
