@@ -39,12 +39,48 @@ export async function generateMetadata({
   const trail = mockTrails.find((t) => t.slug === slug);
 
   if (!trail) {
-    return { title: "Trail not found" };
+    return {
+      title: "Trail not found",
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
   }
 
+  const title = `${trail.name} Trek Guide`;
+  const description = `${trail.description} Discover trail highlights, difficulty, itinerary, travel information and trekking tips with AVARA.`;
+
+  const canonicalUrl = `https://avara-escapes.vercel.app/trails/${trail.slug}`;
+
+  const image =
+    TRAIL_IMAGES[trail.slug] ?? "/images/hero/avara-hero.jpg";
+
   return {
-    title: `${trail.name} — Avara Trails`,
-    description: trail.description,
+    title,
+    description,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title: `${title} | AVARA`,
+      description,
+      url: canonicalUrl,
+      siteName: "AVARA",
+      type: "article",
+      images: [
+        {
+          url: image,
+          alt: `${trail.name} trekking trail`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} | AVARA`,
+      description,
+      images: [image],
+    },
   };
 }
 
