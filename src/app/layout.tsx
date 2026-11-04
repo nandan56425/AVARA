@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
 
   description:
-    "Discover curated weekend escapes, scenic destinations and trekking trails around Mysuru and Bengaluru. Explore thoughtfully planned itineraries for your next adventure.",
+    "Discover weekend getaways, scenic treks and curated travel itineraries around Mysuru and Bengaluru with AVARA.",
 
   verification: {
     google: "BbwTXXcV8q9-hT4ddytF3Xro2jUJc8xT_4q9ZBUGXzA",
