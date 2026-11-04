@@ -55,6 +55,30 @@ export const viewport: Viewport = {
   themeColor: "#ffffff",
 };
 
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://avara-escapes.vercel.app/#organization",
+      name: "AVARA",
+      url: "https://avara-escapes.vercel.app/",
+      description:
+        "AVARA is a curated weekend escape and trekking itinerary discovery platform focused on destinations around Mysuru and Bengaluru.",
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://avara-escapes.vercel.app/#website",
+      name: "AVARA",
+      url: "https://avara-escapes.vercel.app/",
+      publisher: {
+        "@id": "https://avara-escapes.vercel.app/#organization",
+      },
+      inLanguage: "en-IN",
+    },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -65,6 +89,12 @@ export default function RootLayout({
       <body
         className={`${fontSans.variable} ${fontSerif.variable} font-sans antialiased`}
       >
+        <script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify(structuredData),
+  }}
+/>
         <div className="relative flex min-h-screen flex-col">
           <SiteHeader />
           <main className="flex-1">{children}</main>
