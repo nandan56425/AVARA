@@ -137,8 +137,39 @@ export default async function DestinationPage({
 
     const image = DESTINATION_IMAGES[destination.slug];
 
+      const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://avara-escapes.vercel.app/",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Destinations",
+        item: "https://avara-escapes.vercel.app/explore",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: destination.name,
+        item: `https://avara-escapes.vercel.app/destinations/${destination.slug}`,
+      },
+    ],
+  };
+
     return (
         <div className="min-h-screen bg-background text-foreground">
+            <script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify(breadcrumbSchema),
+  }}
+/>
 
             {/* ── Hero ──────────────────────────────────────────────────────── */}
             <section className="relative w-full aspect-[16/9] md:aspect-[21/9] max-h-[640px] bg-muted overflow-hidden">
